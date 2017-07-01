@@ -677,6 +677,46 @@ int fAdventurer(struct gameState *s, int cp)
 	return 0;
 }
 
+int fMine(struct gameState *s, int cp, int c1, int c2, int hp)
+{
+	int i, j;
+	i = j = 0;
+
+	j = s->hand[cp][c1];  //store card we will trash
+
+	if (s->hand[cp][c1] < copper || s->hand[cp][c1] > gold)
+	{
+		return -1;
+	}
+
+	if (c2 > treasure_map || c2 < curse)
+	{
+		return -1;
+	}
+
+	if ( (getCost(s->hand[cp][c1]) + 3) > getCost(c2) )
+	{
+		return -1;
+	}
+
+	gainCard(c2, s, 2, cp);
+
+	//discard card from hand
+	discardCard(hp, cp, s, 0);
+
+	//discard trashed card
+	for (i = 0; i < s->handCount[cp]; i++)
+	{
+		if (s->hand[cp][i] == j)
+		{
+			discardCard(i, cp, s, 0);			
+			break;
+		}
+	}
+
+	return 0;
+}
+
 int fRemodel(struct gameState *s, int cp, int c1, int c2, int hp)
 {
 	int i, j;
@@ -712,13 +752,13 @@ int fSmithy(struct gameState *s, int cp, int hp)
 	int i = 0;
 	
 	//+3 Cards
-	for (i = 0; i < 3; i++)
+	for (i = 0; i < 3; i++) // Correct line 
 	{
-		drawCard(cp, s);
+		drawCard(cp, s); // Correct line 
 	}
 
 	//discard card from hand
-	discardCard(hp, cp, s, 0);
+	discardCard(hp, cp, s, 0); // this is the correct line 
 	return 0;
 }
 
@@ -842,40 +882,8 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
       return -1;
 			
     case mine:
-      j = state->hand[currentPlayer][choice1];  //store card we will trash
-
-      if (state->hand[currentPlayer][choice1] < copper || state->hand[currentPlayer][choice1] > gold)
-	{
-	  return -1;
-	}
+		return fMine(state, currentPlayer, choice1, choice2, handPos);
 		
-      if (choice2 > treasure_map || choice2 < curse)
-	{
-	  return -1;
-	}
-
-      if ( (getCost(state->hand[currentPlayer][choice1]) + 3) > getCost(choice2) )
-	{
-	  return -1;
-	}
-
-      gainCard(choice2, state, 2, currentPlayer);
-
-      //discard card from hand
-      discardCard(handPos, currentPlayer, state, 0);
-
-      //discard trashed card
-      for (i = 0; i < state->handCount[currentPlayer]; i++)
-	{
-	  if (state->hand[currentPlayer][i] == j)
-	    {
-	      discardCard(i, currentPlayer, state, 0);			
-	      break;
-	    }
-	}
-			
-      return 0;
-			
     case remodel:
 		return fRemodel(state, currentPlayer, choice1, choice2, handPos);
 		
