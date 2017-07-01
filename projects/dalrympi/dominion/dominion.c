@@ -673,7 +673,7 @@ int fAdventurer(struct gameState *s, int cp)
 		s -> discard[cp][s -> discardCount[cp]++] = temphand[z - 1]; // discard all cards in play that have been drawn
 		z = z - 1;
 	}
-	
+
 	return 0;
 }
 
