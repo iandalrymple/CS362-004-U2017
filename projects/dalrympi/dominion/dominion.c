@@ -643,38 +643,94 @@ int getCost(int cardNumber)
   return -1;
 }
 
-int fAdventurer(struct gameState *s)
+int fAdventurer(struct gameState *s, int cp)
 {
 	int drawntreasure = 0;
 	int cardDrawn;
 	int z = 0;// this is the counter for the temp hand
-	int currentPlayer = whoseTurn(s);
 	int temphand[MAX_HAND];// moved above the if statement
 	
 	while(drawntreasure < 2)
 	{
 		//if the deck is empty we need to shuffle discard and add to deck
-		if (s -> deckCount[currentPlayer] < 1)
+		if (s -> deckCount[cp] < 1)
 		{
-			shuffle(currentPlayer, s);
+			shuffle(cp, s);
 		}
-		drawCard(currentPlayer, s);
-		cardDrawn = s -> hand[currentPlayer][s -> handCount[currentPlayer] - 1];//top card of hand is most recently drawn card.
+		drawCard(cp, s);
+		cardDrawn = s -> hand[cp][s -> handCount[cp] - 1];//top card of hand is most recently drawn card.
 		if (cardDrawn == copper || cardDrawn == silver || cardDrawn == gold)
 			drawntreasure++;
 		else
 		{
 			temphand[z] = cardDrawn;
-			s -> handCount[currentPlayer]--; //this should just remove the top card (the most recently drawn one).
+			s -> handCount[cp]--; //this should just remove the top card (the most recently drawn one).
 			z++;
 		}
 	}
 	while(z - 1 >= 0)
 	{
-		s -> discard[currentPlayer][s -> discardCount[currentPlayer]++] = temphand[z - 1]; // discard all cards in play that have been drawn
+		s -> discard[cp][s -> discardCount[cp]++] = temphand[z - 1]; // discard all cards in play that have been drawn
 		z = z - 1;
 	}
 	
+	return 0;
+}
+
+int fRemodel(struct gameState *s, int cp, int c1, int c2, int hp)
+{
+	int i, j;
+	i = j = 0;
+
+	j = s->hand[cp][c1];  //store card we will trash
+
+	if ( (getCost(s->hand[cp][c1]) + 2) > getCost(c2) )
+	{
+		return -1;
+	}
+
+	gainCard(c2, s, 0, cp);
+
+	//discard card from hand
+	discardCard(hp, cp, s, 0);
+
+	//discard trashed card
+	for (i = 0; i < s->handCount[cp]; i++)
+	{
+		if (s->hand[cp][i] == j)
+		{
+			discardCard(i, cp, s, 0);			
+			break;
+		}
+	}
+
+	return 0;
+}
+
+int fSmithy(struct gameState *s, int cp, int hp)
+{
+	int i = 0;
+	
+	//+3 Cards
+	for (i = 0; i < 3; i++)
+	{
+		drawCard(cp, s);
+	}
+
+	//discard card from hand
+	discardCard(hp, cp, s, 0);
+	return 0;
+}
+
+int fVillage(struct gameState *s, int cp, int hp)
+{
+	drawCard(cp, s);
+
+	//+2 Actions
+	s -> numActions = s -> numActions + 2;
+
+	//discard played card from hand
+	discardCard(hp, cp, s, 0);
 	return 0;
 }
 
@@ -703,7 +759,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
   switch( card ) 
     {
     case adventurer:
-		return fAdventurer(state);
+		return fAdventurer(state, currentPlayer);
 			
     case council_room:
       //+4 Cards
@@ -821,52 +877,13 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
       return 0;
 			
     case remodel:
-      j = state->hand[currentPlayer][choice1];  //store card we will trash
-
-      if ( (getCost(state->hand[currentPlayer][choice1]) + 2) > getCost(choice2) )
-	{
-	  return -1;
-	}
-
-      gainCard(choice2, state, 0, currentPlayer);
-
-      //discard card from hand
-      discardCard(handPos, currentPlayer, state, 0);
-
-      //discard trashed card
-      for (i = 0; i < state->handCount[currentPlayer]; i++)
-	{
-	  if (state->hand[currentPlayer][i] == j)
-	    {
-	      discardCard(i, currentPlayer, state, 0);			
-	      break;
-	    }
-	}
-
-
-      return 0;
+		return fRemodel(state, currentPlayer, choice1, choice2, handPos);
 		
     case smithy:
-      //+3 Cards
-      for (i = 0; i < 3; i++)
-	{
-	  drawCard(currentPlayer, state);
-	}
-			
-      //discard card from hand
-      discardCard(handPos, currentPlayer, state, 0);
-      return 0;
+		return fSmithy(state, currentPlayer, handPos);
 		
     case village:
-      //+1 Card
-      drawCard(currentPlayer, state);
-			
-      //+2 Actions
-      state->numActions = state->numActions + 2;
-			
-      //discard played card from hand
-      discardCard(handPos, currentPlayer, state, 0);
-      return 0;
+		return fVillage(state, currentPlayer, handPos);
 		
     case baron:
       state->numBuys++;//Increase buys by 1!
