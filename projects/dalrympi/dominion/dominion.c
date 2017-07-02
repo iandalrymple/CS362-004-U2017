@@ -650,7 +650,9 @@ int fAdventurer(struct gameState *s, int cp)
 	int z = 0;// this is the counter for the temp hand
 	int temphand[MAX_HAND];// moved above the if statement
 	
-	while(drawntreasure < 2)
+	// BUG 1
+	// while(drawntreasure < 2) // WAS
+	while(drawntreasure < 4)
 	{
 		//if the deck is empty we need to shuffle discard and add to deck
 		if (s -> deckCount[cp] < 1)
@@ -673,7 +675,7 @@ int fAdventurer(struct gameState *s, int cp)
 		s -> discard[cp][s -> discardCount[cp]++] = temphand[z - 1]; // discard all cards in play that have been drawn
 		z = z - 1;
 	}
-	
+
 	return 0;
 }
 
@@ -681,10 +683,10 @@ int fMine(struct gameState *s, int cp, int c1, int c2, int hp)
 {
 	int i, j;
 	i = j = 0;
-
-	j = s->hand[cp][c1];  //store card we will trash
-
-	if (s->hand[cp][c1] < copper || s->hand[cp][c1] > gold)
+	
+	j = s -> hand[cp][c1];  //store card we will trash
+	
+	if (s -> hand[cp][c1] < copper || s -> hand[cp][c1] > gold)
 	{
 		return -1;
 	}
@@ -694,12 +696,14 @@ int fMine(struct gameState *s, int cp, int c1, int c2, int hp)
 		return -1;
 	}
 
-	if ( (getCost(s->hand[cp][c1]) + 3) > getCost(c2) )
+	if ( (getCost(s -> hand[cp][c1]) + 3) > getCost(c2) )
 	{
 		return -1;
 	}
 
-	gainCard(c2, s, 2, cp);
+	// BUG 3	
+	// gainCard(c2, s, 2, cp); // WAS
+	gainCard(c1, s, 2, cp); // IS 
 
 	//discard card from hand
 	discardCard(hp, cp, s, 0);
@@ -752,7 +756,9 @@ int fSmithy(struct gameState *s, int cp, int hp)
 	int i = 0;
 	
 	//+3 Cards
-	for (i = 0; i < 3; i++) // Correct line 
+	// Bug 2 
+	// for (i = 0; i < 3; i++) // WAS
+	for (i = 0; i < 4; i++) // IS 
 	{
 		drawCard(cp, s); // Correct line 
 	}
@@ -764,13 +770,15 @@ int fSmithy(struct gameState *s, int cp, int hp)
 
 int fVillage(struct gameState *s, int cp, int hp)
 {
-	drawCard(cp, s);
+	drawCard(cp, s); 
 
 	//+2 Actions
 	s -> numActions = s -> numActions + 2;
-
+	
+	// BUG 4
 	//discard played card from hand
-	discardCard(hp, cp, s, 0);
+	// discardCard(hp, cp, s, 0); // WAS
+	discardCard(hp, hp, s, 0); // IS
 	return 0;
 }
 
