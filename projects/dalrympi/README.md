@@ -1,6 +1,6 @@
-Master branch contains the code before bugs were introduced but after the refactoring 
-was done involving moving five cards to standalone functions per assignment 2. The 
-warnings were also cleaned up which involved includes and some stupid stuff 
-in the test functions which we are not using at this point.
+Assignment 2 submission!
 
-THIS BRANCH CONTAINS THE BUGS  
+- Refactored dominion code in dominion.c 
+- Fixed warninings in test files 
+- Four bugs introduced in the refactored code in dominion.c
+- IS / WAS comments for bugs will make it easy to undo if needed
