@@ -134,30 +134,30 @@ int initializeGame(int numPlayers, int kingdomCards[10], int randomSeed,
   ////////////////////////
   //supply intilization complete
 
-  //set player decks
-  for (i = 0; i < numPlayers; i++)
-    {
-      state->deckCount[i] = 0;
-      for (j = 0; j < 3; j++)
+	//set player decks
+	for (i = 0; i < numPlayers; i++)
 	{
-	  state->deck[i][j] = estate;
-	  state->deckCount[i]++;
+		state->deckCount[i] = 0;
+		for (j = 0; j < 3; j++)
+		{
+			state->deck[i][j] = estate;
+			state->deckCount[i]++;
+		}
+		for (j = 3; j < 10; j++)
+		{
+			state->deck[i][j] = copper;
+			state->deckCount[i]++;		
+		}
 	}
-      for (j = 3; j < 10; j++)
-	{
-	  state->deck[i][j] = copper;
-	  state->deckCount[i]++;		
-	}
-    }
 
-  //shuffle player decks
-  for (i = 0; i < numPlayers; i++)
-    {
-      if ( shuffle(i, state) < 0 )
+	//shuffle player decks
+	for (i = 0; i < numPlayers; i++)
 	{
-	  return -1;
+		if ( shuffle(i, state) < 0 )
+		{
+			return -1;
+		}
 	}
-    }
 
   //draw player hands
   for (i = 0; i < numPlayers; i++)
@@ -198,34 +198,40 @@ int initializeGame(int numPlayers, int kingdomCards[10], int randomSeed,
   return 0;
 }
 
-int shuffle(int player, struct gameState *state) {
- 
+int shuffle(int player, struct gameState *state) 
+{
+	int newDeck[MAX_DECK];
+	int newDeckPos = 0;
+	int card;
+	int i;
 
-  int newDeck[MAX_DECK];
-  int newDeckPos = 0;
-  int card;
-  int i;
+	if (state->deckCount[player] < 1)
+		return -1;
+	
+	qsort ((void*)(state->deck[player]), state->deckCount[player], sizeof(int), compare); 
+	/* SORT CARDS IN DECK TO ENSURE DETERMINISM! */
 
-  if (state->deckCount[player] < 1)
-    return -1;
-  qsort ((void*)(state->deck[player]), state->deckCount[player], sizeof(int), compare); 
-  /* SORT CARDS IN DECK TO ENSURE DETERMINISM! */
-
-  while (state->deckCount[player] > 0) {
-    card = floor(Random() * state->deckCount[player]);
-    newDeck[newDeckPos] = state->deck[player][card];
-    newDeckPos++;
-    for (i = card; i < state->deckCount[player]-1; i++) {
-      state->deck[player][i] = state->deck[player][i+1];
-    }
-    state->deckCount[player]--;
-  }
-  for (i = 0; i < newDeckPos; i++) {
-    state->deck[player][i] = newDeck[i];
-    state->deckCount[player]++;
-  }
-
-  return 0;
+	while (state->deckCount[player] > 0) 
+	{
+		card = floor(Random() * state->deckCount[player]);
+		newDeck[newDeckPos] = state->deck[player][card];
+		newDeckPos++;
+		
+		for (i = card; i < state->deckCount[player]-1; i++) 
+		{
+			state->deck[player][i] = state->deck[player][i+1];
+		}
+		
+		state->deckCount[player]--;
+	}
+	
+	for (i = 0; i < newDeckPos; i++) 
+	{
+		state->deck[player][i] = newDeck[i];
+		state->deckCount[player]++;
+	}
+	
+	return 0;
 }
 
 int playCard(int handPos, int choice1, int choice2, int choice3, struct gameState *state) 
