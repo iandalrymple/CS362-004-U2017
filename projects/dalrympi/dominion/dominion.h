@@ -49,7 +49,7 @@ enum CARD
    outpost,
    salvager, /* choice1 = hand# to trash */
    sea_hag,
-   treasure_map
+   treasure_map // 26 in zero based so the 27th card in 1 based
   };
 
 struct gameState {
