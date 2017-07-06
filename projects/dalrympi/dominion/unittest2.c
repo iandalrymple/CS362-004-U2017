@@ -17,6 +17,10 @@ void deckCountTest()
 	struct gameState G1; 		// Before shuffle 
 	int globalFlag = 0; // Master flag for entire test 
 	
+	// Get random stream and seed with time based 
+	SelectStream(56);
+	PutSeed(-1);
+	
 	// Vary deck size in increments of 50
 	for(i = 50; i < MAX_DECK + 1; i = i + 50)
 	{	
@@ -25,11 +29,7 @@ void deckCountTest()
 		
 		// Assign each player 
 		for(j = 0; j < MAX_PLAYERS; j++)
-		{
-			// Get random stream and seed with time based 
-			SelectStream(j);
-			PutSeed(-1);
-		
+		{		
 			// Assign the card values 
 			for(k = 0; k < MAX_DECK; k++)
 			{
@@ -93,6 +93,10 @@ void handCountTest()
 	struct gameState G1; 		// Before shuffle 
 	int globalFlag = 0; // Master flag for entire test 
 	
+	// Get random stream and seed with time based 
+	SelectStream(37);
+	PutSeed(-1);
+	
 	// Vary deck size in increments of 50
 	for(i = 50; i < MAX_HAND + 1; i = i + 50)
 	{	
@@ -101,11 +105,7 @@ void handCountTest()
 		
 		// Assign each player 
 		for(j = 0; j < MAX_PLAYERS; j++)
-		{
-			// Get random stream and seed with time based 
-			SelectStream(j);
-			PutSeed(-1);
-		
+		{	
 			// Assign the card values 
 			for(k = 0; k < MAX_HAND; k++)
 			{
@@ -168,6 +168,10 @@ void discardCountTest()
 	struct gameState G1; 		// Before shuffle 
 	int globalFlag = 0; 		// Master flag for entire test 
 	
+	// Get random stream and seed with time based 
+	SelectStream(88);
+	PutSeed(-1);
+	
 	// Vary deck size in increments of 50
 	for(i = 50; i < MAX_DECK + 1; i = i + 50)
 	{	
@@ -176,11 +180,7 @@ void discardCountTest()
 		
 		// Assign each player 
 		for(j = 0; j < MAX_PLAYERS; j++)
-		{
-			// Get random stream and seed with time based 
-			SelectStream(j);
-			PutSeed(-1);
-		
+		{	
 			// Assign the card values 
 			for(k = 0; k < MAX_DECK; k++)
 			{
@@ -244,6 +244,10 @@ void allCountTest()
 	struct gameState G1; 		// Before shuffle 
 	int globalFlag = 0; 		// Master flag for entire test 
 	
+	// Get random stream and seed with time based 
+	SelectStream(21);
+	PutSeed(-1);
+			
 	// Perform 10 iterations of random combinations of deck, hand and discard sizes 
 	for(i = 0; i < 10; i++)
 	{	
@@ -253,10 +257,6 @@ void allCountTest()
 		// Assign each player 
 		for(j = 0; j < MAX_PLAYERS; j++)
 		{
-			// Get random stream and seed with time based 
-			SelectStream(j);
-			PutSeed(-1);
-		
 			// Assign the card values 
 			for(k = 0; k < MAX_DECK; k++)
 			{

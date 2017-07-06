@@ -12,8 +12,8 @@
 #include "rngs.h"
 
 #define		NUM_CARDS		27
-#define 	NUM_REPS		100
-#define 	RAND_MULT 		2
+#define 	NUM_REPS		2
+#define 	RAND_MULT 		5
 
 void provinceTest()
 {
@@ -27,16 +27,16 @@ void countTest()
 	int globalFlag = 0; 		// 0 = passed and GTE 1 = fail 
 	struct gameState G1; 		// Before shuffle 
 	
+	// Set up the random seeding 
+	SelectStream(99);
+	PutSeed(-1);
+	
 	// Inform user of test being performed 
 	printf("Starting the count test on isGameOver\n");
 	
 	// Run x iterations possibly passed in via csh
 	for(i = 0; i < (int)NUM_REPS; i++)
-	{		
-		// Get random stream and seed with time based 
-		SelectStream(i);
-		PutSeed(-1);
-		
+	{			
 		// Populate the supply counts randomly but dont allow zero for province
 		zeroCounter = 0;
 		for(j = 0; j < (int)NUM_CARDS; j++)
@@ -46,8 +46,10 @@ void countTest()
 				G1.supplyCount[j] = floor(Random() * (int)RAND_MULT) + 1;
 			if(G1.supplyCount[j] == 0) 
 				zeroCounter++;
+			
+			printf("Card %d count %d\n", j, G1.supplyCount[j]);
 		}	
-		
+			
 		printf("ZeroCounter %d\n", zeroCounter);
 		
 		// Set zeroCounter for compare to isGameOver
@@ -56,10 +58,10 @@ void countTest()
 		
 		// Pass into the FUT
 		if(isGameOver(&G1) == zeroCounter)
-			printf("PASSED iteration %d in countTest\n", i);
+			printf("PASSED iteration %d in countTest\n\n", i);
 		else 
 		{
-			printf("FAILED iteration %d in countTest\n", i);
+			printf("FAILED iteration %d in countTest\n\n", i);
 			globalFlag++;
 		}
 	}

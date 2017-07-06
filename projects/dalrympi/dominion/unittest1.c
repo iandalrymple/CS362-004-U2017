@@ -49,6 +49,10 @@ void shuffleCountRandomTest()
 	struct gameState G2; 		// After shuffle 
 	int masterPassFailFlag = 0; // Master flag for entire test 
 	
+	// Get random stream and seed with time based 
+	SelectStream(123);
+	PutSeed(-1);
+		
 	// Vary deck size in increments of 50
 	for(i = 50; i < MAX_DECK + 1; i = i + 50)
 	{	
@@ -58,10 +62,6 @@ void shuffleCountRandomTest()
 		// Assign each player 
 		for(j = 0; j < MAX_PLAYERS; j++)
 		{
-			// Get random stream and seed with time based 
-			SelectStream(j);
-			PutSeed(-1);
-		
 			// Assign the card values 
 			for(k = 0; k < MAX_DECK; k++)
 			{
