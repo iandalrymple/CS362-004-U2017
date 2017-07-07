@@ -23,10 +23,7 @@ void deckCountTest()
 	
 	// Vary deck size in increments of 50
 	for(i = 50; i < MAX_DECK + 1; i = i + 50)
-	{	
-		// Inform user of test being performed 
-		printf("Testing deck size of %d for proper count.\n", i);
-		
+	{		
 		// Assign each player 
 		for(j = 0; j < MAX_PLAYERS; j++)
 		{		
@@ -99,10 +96,7 @@ void handCountTest()
 	
 	// Vary deck size in increments of 50
 	for(i = 50; i < MAX_HAND + 1; i = i + 50)
-	{	
-		// Inform user of test being performed 
-		printf("Testing hand size of %d for proper count.\n", i);
-		
+	{		
 		// Assign each player 
 		for(j = 0; j < MAX_PLAYERS; j++)
 		{	
@@ -174,10 +168,7 @@ void discardCountTest()
 	
 	// Vary deck size in increments of 50
 	for(i = 50; i < MAX_DECK + 1; i = i + 50)
-	{	
-		// Inform user of test being performed 
-		printf("Testing discard size of %d for proper count.\n", i);
-		
+	{		
 		// Assign each player 
 		for(j = 0; j < MAX_PLAYERS; j++)
 		{	
@@ -250,10 +241,7 @@ void allCountTest()
 			
 	// Perform 10 iterations of random combinations of deck, hand and discard sizes 
 	for(i = 0; i < 10; i++)
-	{	
-		// Inform user of test being performed 
-		printf("Testing all piles for proper count.\n");
-		
+	{		
 		// Assign each player 
 		for(j = 0; j < MAX_PLAYERS; j++)
 		{
@@ -315,6 +303,7 @@ void allCountTest()
 
 int main () 
 {
+	printf("UNIT TEST 2.\n");
 	deckCountTest();
 	handCountTest();
 	discardCountTest();

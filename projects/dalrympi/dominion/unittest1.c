@@ -55,10 +55,7 @@ void shuffleCountRandomTest()
 		
 	// Vary deck size in increments of 50
 	for(i = 50; i < MAX_DECK + 1; i = i + 50)
-	{	
-		// Inform user of test being performed 
-		printf("Testing deck size of %d for equal counts and randomness.\n", i);
-		
+	{		
 		// Assign each player 
 		for(j = 0; j < MAX_PLAYERS; j++)
 		{
@@ -135,13 +132,14 @@ void shuffleCountRandomTest()
 	
 	// Present the master results for all tests
 	if(masterPassFailFlag == 0)
-		printf("PASSED count and randomness testing.\n");
+		printf("PASSED count and randomness testing.\n\n");
 	else
-		printf("FAILED count and randomness testing with %d errors.\n", masterPassFailFlag);
+		printf("FAILED count and randomness testing with %d errors.\n\n", masterPassFailFlag);
 }
 
 int main () 
 {
+	printf("UNIT TEST 1\n");
 	shuffleDeckEmptyTest();
 	shuffleCountRandomTest();
 	return 0;
