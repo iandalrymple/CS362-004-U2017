@@ -12,7 +12,7 @@
 #include "rngs.h"
 
 #define		NUM_CARDS		27
-#define 	NUM_REPS		20
+#define 	NUM_REPS		50
 #define 	RAND_MULT 		5
 
 void provinceTest()

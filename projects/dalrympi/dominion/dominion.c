@@ -763,6 +763,7 @@ int fRemodel(struct gameState *s, int cp, int c1, int c2, int hp)
 	return 0;
 }
 
+// Smithy should get three more cards into hand and discard the smithy 
 int fSmithy(struct gameState *s, int cp, int hp)
 {
 	int i = 0;

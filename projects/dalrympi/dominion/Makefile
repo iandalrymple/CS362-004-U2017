@@ -55,7 +55,7 @@ unittestresults.out: unittest1.c unittest2.c unittest3.c unittest4.c dominion.o 
 all: playdom player unittest1 unittest2 unittest3 unittest4 cardtest1 cardtest2 cardtest3 cardtest4
 
 clean:
-	rm -f *.o playdom player *.gcov *.gcda *.gcno *.so *.out badTestDrawCard testDrawCard unittest1 unittest2 unittest3 unittest4 cardtest1 cardtest2 cardtest3 cardtest4
+	rm -f *.o *.gcov *.gcda *.gcno *.so *.out playdom player badTestDrawCard testDrawCard unittest1 unittest2 unittest3 unittest4 cardtest1 cardtest2 cardtest3 cardtest4
 
 ## Old tests that do not work all too well 
 testDrawCard: testDrawCard.c dominion.o rngs.o
