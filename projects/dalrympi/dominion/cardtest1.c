@@ -64,7 +64,11 @@ void smithyTest()
 		
 		// Check the hand count 
 		if(G2.handCount[i] != ((int)TEST_HAND + 2))
-			countResult[i] = 0;		
+			countResult[i] = 0;	
+		
+		// int y = 0;
+		// for(y = 0; y < 10; y++)
+			// printf("%d %d\n", G1.hand[i][y], G2.hand[i][y]);
 	}
 	
 	// Present the results 
