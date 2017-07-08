@@ -93,7 +93,7 @@ void countTest()
 
 int main () 
 {
-	printf("UNIT TEST 3\n");	
+	printf("\nUNIT TEST 3\n");	
 	provinceTest();
 	countTest();
 	return 0;

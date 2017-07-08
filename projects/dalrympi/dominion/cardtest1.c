@@ -24,11 +24,7 @@ void smithyTest()
 	int i, j, k;
 	int smithyResult[MAX_PLAYERS] = {1, 1, 1, 1};
 	int countResult[MAX_PLAYERS] = {1, 1, 1, 1};
-	
-	// Get random stream and seed with time based 
-	SelectStream(123);
-	PutSeed(-1);
-	
+		
 	// Test each player
 	for(i = 0; i < MAX_PLAYERS; i++)
 	{
@@ -87,7 +83,7 @@ void smithyTest()
 		
 int main () 
 {
-	printf("CARD TEST 1 = SMITHY\n");
+	printf("\nCARD TEST 1 = SMITHY\n");
 	smithyTest();
 	return 0;
 }

@@ -53,7 +53,8 @@ void shuffleCountTest()
 	// Assign each player 
 	for(j = 0; j < MAX_PLAYERS; j++)
 	{
-		// Assign the card values 
+		// Assign the card values - just putting index into value for the sake 
+		// of testing 
 		for(k = 0; k < MAX_DECK; k++)
 		{
 			G2.deck[j][k] = G1.deck[j][k] = k;
@@ -65,7 +66,7 @@ void shuffleCountTest()
 		// Shuffle the deck 
 		int result = shuffle(j, &G2);
 		if(result < -1) 
-			printf("PLAYER HAS NO CARDS LEFT IN DECK - SHOULD NOT HAPPEN.\n");		
+			printf("FAILED: player has not cards in deck but was set to 10.\n");		
 		
 		// Get the counts of each card type in before and after shuffle decks 
 		int G1Counts[27]; 
@@ -129,15 +130,23 @@ void negativePlayerTest()
 		
 		// Shuffle the deck 
 		int result = shuffle(-1, &G2);
-		printf("result %d\n", result);
-		for(m = 0; m < 10; m++)
-			printf("%d %d\n", G1.deck[j][m], G2.deck[j][m]);
+	
+		// Nothing should be returned as an exception should be thrown or 
+		// some negative flag maybe should be sent back 
+		if(result > -1)
+		{
+			printf("FAILED: returned a value of %d which indicates the function completed but negative player index submitted.\n", result);
+			for(m = 0; m < 10; m++)
+				printf("Result before %d result after %d\n", G1.deck[j][m], G2.deck[j][m]);
+		}
+		else 
+			printf("PASSED: returned a value of %d which indicates the function bombed out and returned an impossible value.\n", result);
 	}
 }
 
 int main () 
 {
-	printf("UNIT TEST 1\n");
+	printf("\nUNIT TEST 1\n");
 	shuffleDeckEmptyTest();
 	shuffleCountTest();
 	negativePlayerTest();

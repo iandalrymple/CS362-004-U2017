@@ -125,7 +125,7 @@ void basicCountTest()
 
 int main () 
 {
-	printf("UNIT TEST 4\n");
+	printf("\nUNIT TEST 4\n");
 	negativeHandCountTest();
 	negativeBonusTest();
 	basicCountTest();

@@ -237,7 +237,7 @@ void allCountTest()
 
 int main() 
 {
-	printf("UNIT TEST 2.\n");
+	printf("\nUNIT TEST 2.\n");
 	deckCountTest();
 	handCountTest();
 	discardCountTest();

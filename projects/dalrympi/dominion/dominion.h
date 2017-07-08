@@ -129,5 +129,9 @@ int getWinners(int players[MAX_PLAYERS], struct gameState *state);
    1, others to 0 */
    
 int fSmithy(struct gameState *s, int cp, int hp);
+int fAdventurer(struct gameState *s, int cp);
+int fVillage(struct gameState *s, int cp, int hp);
+int fRemodel(struct gameState *s, int cp, int c1, int c2, int hp);
+int fMine(struct gameState *s, int cp, int c1, int c2, int hp);
 
 #endif
