@@ -23,7 +23,7 @@ void provinceTest()
 	// Test with no province 
 	for(j = 0; j < (int)NUM_CARDS; j++)
 	{
-		G1.supplyCount[j] = floor(Random() * (int)RAND_MULT) + 1;
+		G1.supplyCount[j] = 23;
 		if(j == province)
 			G1.supplyCount[j] = 0;
 	}	
@@ -36,7 +36,7 @@ void provinceTest()
 	// Test with province 
 	for(j = 0; j < (int)NUM_CARDS; j++)
 	{
-		G1.supplyCount[j] = floor(Random() * (int)RAND_MULT) + 1;
+		G1.supplyCount[j] = 14;
 		if(j == province)
 			G1.supplyCount[j] = 2;
 	}	
@@ -51,53 +51,44 @@ void provinceTest()
 
 void countTest()
 {
-	int i, j; 					// Simple indexers
+	int j; 					// Simple indexers
 	int zeroCounter; 			// Count the number of zero in supply for compare to FUT
-	int globalFlag = 0; 		// 0 = passed and GTE 1 = fail 
 	struct gameState G1; 		// Before shuffle 
-	
-	// Set up the random seeding 
-	SelectStream(99);
-	PutSeed(-1);
-	
-	// Run x iterations possibly passed in via csh
-	for(i = 0; i < (int)NUM_REPS; i++)
-	{			
-		// Populate the supply counts randomly but dont allow zero for province
-		zeroCounter = 0;
-		for(j = 0; j < (int)NUM_CARDS; j++)
-		{
-			G1.supplyCount[j] = floor(Random() * (int)RAND_MULT);
-			if(j == province)
-				G1.supplyCount[j] = floor(Random() * (int)RAND_MULT) + 1;
-			if(G1.supplyCount[j] == 0) 
-				zeroCounter++;		
-			//printf("Card %d count %d\n", j, G1.supplyCount[j]);
-		}	
 				
-		// Set zeroCounter for compare to isGameOver
-		if(zeroCounter >= 3)
-			zeroCounter = 1;
-		else 
-			zeroCounter = 0;
-		
-		// Pass into the FUT
-		if(isGameOver(&G1) == zeroCounter)
-			printf("PASSED iteration %d in countTest with zeroCounter %d and isGameOver %d \n", i, zeroCounter, isGameOver(&G1));
-		else 
-		{
-			printf("FAILED iteration %d in countTest with zeroCounter %d and isGameOver %d\n", i, zeroCounter, isGameOver(&G1));
-			globalFlag++;
-			for(j = 0; j < (int)NUM_CARDS; j++)
-				printf("Card %d count %d on iteration %d\n", j, G1.supplyCount[j], i);
-		}
+	// Populate the supply counts randomly but dont allow zero for province
+	zeroCounter = 0;
+	for(j = 0; j < (int)NUM_CARDS; j++)
+	{
+		G1.supplyCount[j] = 22;
+		if(j == province)
+			G1.supplyCount[j] = 23;
+		if(j == 24 || j == 25 || j == 26)
+			G1.supplyCount[j] = 0;
+	}	
+	
+	// Now check for zeroes 
+	for(j = 0; j < (int)NUM_CARDS; j++)
+	{
+		if(G1.supplyCount[j] == 0) 
+			zeroCounter++;
 	}
+			
+	// Set zeroCounter for compare to isGameOver
+	int zeroCounterPost = 0;
+	if(zeroCounter >= 3)
+		zeroCounterPost = 1;
+	else 
+		zeroCounterPost = 0;
 	
 	// Pass into the FUT
-	if(globalFlag == 0)
-		printf("PASSED count test\n\n");
+	if(isGameOver(&G1) == zeroCounterPost)
+		printf("PASSED countTest with zeroCounter %d and isGameOver %d \n", zeroCounter, isGameOver(&G1));
 	else 
-		printf("FAILED count test\n\n");
+	{
+		printf("FAILED countTest with zeroCounter %d and isGameOver %d\n", zeroCounter, isGameOver(&G1));
+		for(j = 0; j < (int)NUM_CARDS; j++)
+			printf("Card %d count %d\n", j, G1.supplyCount[j]);
+	}
 }
 
 int main () 
