@@ -2,7 +2,7 @@
 // Author: 			Ian Dalrymple
 // Date Created: 	07/07/2017
 // Requirements:
-// 1. Current player should receive exact 3 cards.
+// 1. Current player should receive exact 3 cards and discard the smithy 
 // 2. 3 cards should come from his own pile.
 // 3. No state change should occur for other players.
 // 4. No state change should occur to the victory card piles and kingdom card piles.

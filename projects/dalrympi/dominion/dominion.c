@@ -716,7 +716,7 @@ int fMine(struct gameState *s, int cp, int c1, int c2, int hp)
 	{
 		return -1;
 	}
-
+	
 	// BUG 3	
 	// gainCard(c2, s, 2, cp); // WAS
 	gainCard(c1, s, 2, cp); // IS 

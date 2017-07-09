@@ -204,8 +204,8 @@ void checkAddRule()
 			printf("FAILED: player %d new card NOT inserted into hand.\n", i);
 		
 		// Discard pile has correct count
-		if(G1.discardCount[i] != G2.discardCount[i] - 1)
-			printf("FAILED: player %d discard count is incorrect.\n", i);
+		if(G1.discardCount[i] != G2.discardCount[i] - 2)
+			printf("FAILED: player %d discard count is incorrect before %d and after %d.\n", i, G2.discardCount[i], G1.discardCount[i]);
 		else 
 			printf("PASSED: player %d discard count is correct.\n", i);
 
