@@ -1397,6 +1397,97 @@ int updateCoins(int player, struct gameState *state, int bonus)
 	return 0;
 }
 
+int gameStateCmp(struct gameState *G1, struct gameState *G2)
+{
+	// Locals 
+	int i, j;
+
+	// numPlayers 
+	if(G1 -> numPlayers != G2 -> numPlayers) 
+		return -1;
+	
+	// supplyCount 
+	for(i = 0; i < treasure_map + 1; i++)
+		if(G1 -> supplyCount[i] != G1 -> supplyCount[i])
+			return -2;
+		
+	// embargoTokens
+	for(i = 0; i < treasure_map + 1; i++)
+		if(G1 -> embargoTokens[i] != G1 -> embargoTokens[i])
+			return -3;
+	
+	// outpostPlayed
+	if(G1 -> outpostPlayed != G2 -> outpostPlayed) 
+		return -4;
+	
+	// outpostTurn
+	if(G1 -> outpostTurn != G2 -> outpostTurn) 
+		return -5;
+	
+	// whoseTurn
+	if(G1 -> whoseTurn != G2 -> whoseTurn) 
+		return -6;
+	
+	// phase
+	if(G1 -> phase != G2 -> phase) 
+		return -7;
+	
+	// numActions
+	if(G1 -> numActions != G2 -> numActions) 
+		return -8;
+	
+	// coins
+	if(G1 -> coins != G2 -> coins) 
+		return -9;
+
+	// numBuys
+	if(G1 -> numBuys != G2 -> numBuys) 
+		return -10;
+	
+	// handCount first before hand 
+	for(i = 0; i < MAX_PLAYERS; i++)
+		if(G1 -> handCount[i] != G2 -> handCount[i])
+			return -11;
+	
+	// hand using correct handCount
+	for(i = 0; i < MAX_PLAYERS; i++)
+		for(j = 0; j < G1 -> handCount[i]; j++)
+			if(G1 -> hand[i][j] != G2 -> hand[i][j])
+				return -12;
+			
+	// deckCount first before hand 
+	for(i = 0; i < MAX_PLAYERS; i++)
+		if(G1 -> deckCount[i] != G2 -> deckCount[i]) 
+			return -13;
+	
+	// hand using correct deckCount
+	for(i = 0; i < MAX_PLAYERS; i++)
+		for(j = 0; j < G1 -> deckCount[i]; j++)
+			if(G1 -> deck[i][j] != G2 -> deck[i][j])
+				return -14;
+			
+	// discardCount first before hand 
+	for(i = 0; i < MAX_PLAYERS; i++)
+		if(G1 -> discardCount[i] != G2 -> discardCount[i]) 
+			return -15;
+	
+	// discard using correct deckCount
+	for(i = 0; i < MAX_PLAYERS; i++)
+		for(j = 0; j < G1 -> discardCount[i]; j++)
+			if(G1 -> discard[i][j] != G2 -> discard[i][j])
+				return -16;
+			
+	// playedCardCount first before hand 
+	if(G1 -> playedCardCount != G2 -> playedCardCount) 
+		return -17;
+	
+	// discard using correct deckCount
+	for(j = 0; j < G1 -> playedCardCount; j++)
+		if(G1 -> playedCards[j] != G2 -> playedCards[j])
+			return -18;
+			
+	return 1000;
+}
 
 //end of dominion.c
 

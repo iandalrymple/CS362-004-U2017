@@ -1,6 +1,11 @@
 // Desc: 			Unit test for fSmithy function in dominion.c
 // Author: 			Ian Dalrymple
 // Date Created: 	07/07/2017
+// Requirements:
+// 1. Current player should receive exact 3 cards.
+// 2. 3 cards should come from his own pile.
+// 3. No state change should occur for other players.
+// 4. No state change should occur to the victory card piles and kingdom card piles.
 
 #include "dominion.h"
 #include "dominion_helpers.h"
@@ -17,14 +22,23 @@
 #define TEST_DECK 		100
 #define TEST_DISCARD 	100
 
+// Requirements 1 - 4
 void smithyTest()
 {
-	struct gameState G1; // Working 
-	struct gameState G2; // Snapshot 
 	int i, j, k;
+	int gsResult;
 	int smithyResult[MAX_PLAYERS] = {1, 1, 1, 1};
 	int countResult[MAX_PLAYERS] = {1, 1, 1, 1};
+	int deckResult[MAX_PLAYERS] = {1, 1, 1, 1};
+	int stateResult[MAX_PLAYERS] = {1, 1, 1, 1};
+	struct gameState G1; 				// Before shuffle 
+	struct gameState G2; 				// After shuffle 
+	int kings[10] = {adventurer, embargo, village, minion, mine, cutpurse,
+			sea_hag, tribute, smithy, council_room};
 		
+	// Init the game using the presumed funtional initializeGame function
+	initializeGame((int)MAX_PLAYERS, kings, 85, &G1);
+			
 	// Test each player
 	for(i = 0; i < MAX_PLAYERS; i++)
 	{
@@ -62,6 +76,26 @@ void smithyTest()
 		if(G2.handCount[i] != ((int)TEST_HAND + 2))
 			countResult[i] = 0;	
 		
+		// Check the deck count 
+		if(G2.deckCount[i] != ((int)TEST_DECK - 2))
+			deckResult[i] = 0;	
+		
+		// Check the state before and after and for all players 
+		G2.handCount[i] = G1.handCount[i];
+		G2.deckCount[i] = G1.deckCount[i];
+		G2.discardCount[i] = G1.discardCount[i];
+		G2.playedCardCount = G1.playedCardCount;
+		for(j = 0; j < MAX_DECK; j++)
+		{
+			G2.hand[i][j] = G1.hand[i][j];
+			G2.deck[i][j] = G1.deck[i][j];
+			G2.discard[i][j] = G1.discard[i][j];
+			G2.playedCards[j] = G1.playedCards[j];
+		}
+		gsResult = gameStateCmp(&G1, &G2);
+		if(gsResult != 1000)
+			stateResult[i] = 0;
+		
 		// int y = 0;
 		// for(y = 0; y < 10; y++)
 			// printf("%d %d\n", G1.hand[i][y], G2.hand[i][y]);
@@ -78,6 +112,14 @@ void smithyTest()
 			printf("FAILED player %d for hand count.\n", i);
 		else
 			printf("PASSED player %d for hand count.\n", i);
+		if(deckResult[i] == 0)
+			printf("FAILED player %d for deck count.\n", i);
+		else
+			printf("PASSED player %d for deck count.\n", i);
+		if(stateResult[i] == 0)
+			printf("FAILED player %d for state mutated with value %d.\n", i, gsResult);
+		else
+			printf("PASSED player %d for state mutated.\n", i);
 	}	
 }
 		

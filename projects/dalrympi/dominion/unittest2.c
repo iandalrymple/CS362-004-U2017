@@ -1,6 +1,12 @@
 // Desc: 			Unit test for fullDeckCount function in dominion.c
 // Author: 			Ian Dalrymple
 // Date Created: 	07/04/2017
+// Requirements:	
+// 1 - counts correct for hand 
+// 2 - counts correct for deck 
+// 3 - counts correct for discard pile 
+// 4 - nothing has changed for other players 
+// 5 - nothing else changed for the player under test 
 
 #include "dominion.h"
 #include "dominion_helpers.h"
@@ -17,10 +23,11 @@
 #define FILLER_CARD  	2
 #define SEED_CARD 		22
 #define SEED_COUNT 		4
-	
+
+// Req 2
 void deckCountTest()
 {
-	int j, k; 						// Simple indexers
+	int j, k; 					// Simple indexers
 	struct gameState G1; 		// Before shuffle 
 	int globalFlag = 0; 		// Master flag for entire test 
 	
@@ -68,6 +75,7 @@ void deckCountTest()
 		printf("PASSED deck count check test.\n\n");
 }
 
+// Req 1
 void handCountTest()
 {
 	int j, k; 						// Simple indexers
@@ -118,6 +126,7 @@ void handCountTest()
 		printf("PASSED hand count check test.\n\n");
 }
 
+// Req 3
 void discardCountTest()
 {
 	int j, k; 					// Simple indexers
@@ -168,12 +177,20 @@ void discardCountTest()
 		printf("PASSED discard count check test.\n\n");
 }
 
+// Req 1 - 5
 void allCountTest()
 {
 	int j, k; 					// Simple indexers
-	struct gameState G1; 		// Before shuffle 
 	int globalFlag = 0; 		// Master flag for entire test 
-	
+	struct gameState G1; 		// Before shuffle 
+	struct gameState G2; 		// After shuffle 
+	int kings[10] = {adventurer, embargo, village, minion, mine, cutpurse,
+			sea_hag, tribute, smithy, council_room};
+		
+	// Init the game using the presumed funtional initializeGame function
+	initializeGame((int)MAX_PLAYERS, kings, 23, &G1);
+		
+	// Tell the user whats happening 
 	printf("Start of ALL count check test.\n");
 	
 	// Assign each player 
@@ -213,6 +230,9 @@ void allCountTest()
 		G1.discard[j][3] = (int)SEED_CARD;
 		G1.discard[j][8] = (int)SEED_CARD;
 			
+		// Make a copy of the game state 
+		memcpy(&G2, &G1, sizeof(struct gameState));
+			
 		// Compare the counts - should be equal 
 		int failFlag = 0;
 		if(fullDeckCount(j, (int)SEED_CARD, &G1) != (int)SEED_COUNT * 3)
@@ -221,11 +241,19 @@ void allCountTest()
 			globalFlag++;
 		}
 
+		// Check to make sure nothing else is changed for this player and the other players
+		int somethingChanged = gameStateCmp(&G1, &G2);
+		if(somethingChanged != 1000)
+		{
+			failFlag++;
+			globalFlag++;
+		}
+			
 		// Report per player results 
 		if(failFlag > 0)
-			printf("FAILED allCountTest for player = %d with fullDeckCount = %d and should be %d.\n", j, fullDeckCount(j, (int)SEED_CARD, &G1), (int)SEED_COUNT * 3);
+			printf("FAILED allCountTest for player = %d with fullDeckCount = %d and should be %d and other changed %d.\n", j, fullDeckCount(j, (int)SEED_CARD, &G1), (int)SEED_COUNT * 3, somethingChanged);
 		else
-			printf("PASSED allCountTestCountTest for player = %d with fullDeckCount = %d and should be %d.\n", j, fullDeckCount(j, (int)SEED_CARD, &G1), (int)SEED_COUNT * 3);
+			printf("PASSED allCountTestCountTest for player = %d with fullDeckCount = %d and should be %d and other changed %d.\n", j, fullDeckCount(j, (int)SEED_CARD, &G1), (int)SEED_COUNT * 3, somethingChanged);
 	}
 	
 	// Overall check 

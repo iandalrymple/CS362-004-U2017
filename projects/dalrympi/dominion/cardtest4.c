@@ -1,6 +1,12 @@
 // Desc: 			Unit test for fMine function in dominion.c
 // Author: 			Ian Dalrymple
 // Date Created: 	07/08/2017
+// Requirements:
+// 1 - only trash copper silver or gold 
+// 2 - new card must be a valid card from enum
+// 3 - cost of new card must be 3 or less in value than the one being trashed 
+// 4 - discard the mine and the card you are replacing 
+// 5 - no other players or other attributes in state should be mutated 
 
 #include "dominion.h"
 #include "dominion_helpers.h"
@@ -20,6 +26,7 @@
 #define TRASH_IDX		2
 #define PLAYED_COUNT	65
 
+// Requirement 1
 void checkTrashCardRule()
 {
 	struct gameState G1; // Working 
@@ -56,6 +63,7 @@ void checkTrashCardRule()
 	}
 }
 
+// Requirement 2
 void checkNewCardRule()
 {
 	struct gameState G1; // Working 
@@ -92,6 +100,7 @@ void checkNewCardRule()
 	}
 }
 
+// Requirement 3
 void checkCostRule()
 {
 	struct gameState G1; // Working 
@@ -130,10 +139,18 @@ void checkCostRule()
 	}
 }
 
+// Requirement 4 and 5
 void checkAddRule()
 {
-	struct gameState G1; // Working 
+	int gsResult;
 	int i, j;
+	struct gameState G1; 				// Before shuffle 
+	struct gameState G2; 				// After shuffle 
+	int kings[10] = {adventurer, embargo, village, minion, mine, cutpurse,
+			sea_hag, tribute, smithy, council_room};
+		
+	// Init the game using the presumed funtional initializeGame function
+	initializeGame((int)MAX_PLAYERS, kings, 85, &G1);
 
 	// Test each player
 	for(i = 0; i < MAX_PLAYERS; i++)
@@ -155,26 +172,61 @@ void checkAddRule()
 		
 		// Set up location of the mine 
 		G1.hand[i][(int)MINE_IDX] = mine;
-			
+		
+		// Copy over the state before calling FUT
+		memcpy (&G2, &G1, sizeof(struct gameState));
+		
 		// Call FUT - gameState, player, choice one = trash index in your hand, choice 2 = type of card seeking and 
 		// hp is the hand position of the mine card which will be discarded
 		int result = fMine(&G1, i, (int)TRASH_IDX, gold, (int)MINE_IDX);
 		if(result == 0)
 		{
 			int hasGold = 0;
+			int hasMine = 0;
 			for(j = 0; j < G1.handCount[i]; j++)
 			{	
 				//printf("%d\n", G1.deck[i][j]);
 				if(G1.deck[i][j] == gold)
 					hasGold++;
+				if(G1.deck[i][j] == mine)
+					hasMine++;
 			}
 			if(hasGold > 0)
 				printf("PASSED: player %d new card inserted into hand.\n", i);
 			else 
 				printf("FAILED: player %d new card NOT inserted into hand.\n", i);
+			if(hasMine > 0)
+				printf("FAILED: player %d did not get rid of mine.\n", i);
+			else 
+				printf("PASSED: player %d got rid of the mine.\n", i);
 		}
 		else
 			printf("FAILED: player %d new card NOT inserted into hand.\n", i);
+		
+		// Discard pile has correct count
+		if(G1.discardCount[i] != G2.discardCount[i] - 1)
+			printf("FAILED: player %d discard count is incorrect.\n", i);
+		else 
+			printf("PASSED: player %d discard count is correct.\n", i);
+
+		// Reset hand, discard and deck and played before checking for mutations 
+		G1.handCount[i] = G2.handCount[i];
+		G1.deckCount[i] = G2.deckCount[i];
+		G1.discardCount[i] = G2.discardCount[i];
+		G1.playedCardCount = G2.playedCardCount;
+		G1.numActions = G2.numActions;
+		for(j = 0; j < MAX_DECK; j++)
+		{
+			G1.hand[i][j] = G2.hand[i][j];
+			G1.deck[i][j] = G2.deck[i][j];
+			G1.discard[i][j] = G2.discard[i][j];
+			G1.playedCards[j] = G2.playedCards[j];
+		}
+		gsResult = gameStateCmp(&G1, &G2);
+		if(gsResult != 1000)
+			printf("FAILED: player %d mutate test with value %d.\n", i, gsResult);
+		else
+			printf("PASSED: player %d mutate count test.\n", i);			
 	}
 }
 int main () 
