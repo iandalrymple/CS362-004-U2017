@@ -1,6 +1,8 @@
-Assignment 2 submission!
+Assignment 3 submission!
 
-- Refactored dominion code in dominion.c 
-- Fixed warninings in test files 
-- Four bugs introduced in the refactored code in dominion.c
-- IS / WAS comments for bugs will make it easy to undo if needed
+- Added unittestX.c 
+- Added cardtestX.c
+- To run suite and generate report do the following:
+      - Run make clean
+      - Run make unittestresults.out 
+      - cat unittestresults.out 
