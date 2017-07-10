@@ -701,7 +701,7 @@ int fMine(struct gameState *s, int cp, int c1, int c2, int hp)
 	i = j = 0;
 	
 	j = s -> hand[cp][c1];  //store card we will trash
-	
+
 	if (s -> hand[cp][c1] < copper || s -> hand[cp][c1] > gold)
 	{
 		return -1;

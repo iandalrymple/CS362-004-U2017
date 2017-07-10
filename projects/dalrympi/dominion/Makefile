@@ -69,7 +69,7 @@ unittestresults.out: unittest1.c unittest2.c unittest3.c unittest4.c dominion.o 
 all: playdom player unittest1 unittest2 unittest3 unittest4 cardtest1 cardtest2 cardtest3 cardtest4 unittestresults.out
 
 clean:
-	rm -f *.o *.gcov *.gcda *.gcno *.so *.out playdom player badTestDrawCard testDrawCard unittest1 unittest2 unittest3 unittest4 cardtest1 cardtest2 cardtest3 cardtest4
+	rm -f *.o *.gcov *.gcda *.gcno *.so *.out playdom player badTestDrawCard testDrawCard unittest1 unittest2 unittest3 unittest4 cardtest1 cardtest2 cardtest3 cardtest4 demoTest
 
 ## Old tests that do not work all too well 
 testDrawCard: testDrawCard.c dominion.o rngs.o
@@ -80,6 +80,9 @@ badTestDrawCard: badTestDrawCard.c dominion.o rngs.o
 
 testBuyCard: testDrawCard.c dominion.o rngs.o
 	gcc -o testDrawCard -g  testDrawCard.c dominion.o rngs.o $(CFLAGS)
+
+demoTest: cardtestTest.c dominion.o rngs.o
+	gcc -o demoTest -g  cardtestTest.c dominion.o rngs.o $(CFLAGS)
 
 testAll: dominion.o testSuite.c
 	gcc -o testSuite testSuite.c -g  dominion.o rngs.o $(CFLAGS)
