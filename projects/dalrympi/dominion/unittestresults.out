@@ -1,0 +1,293 @@
+
+UNIT TEST 1
+PASSED init count check for player 0 with count of 0.
+PASSED init count check for player 1 with count of 0.
+PASSED init count check for player 2 with count of 0.
+PASSED init count check for player 3 with count of 0.
+PASSED init count check for player 0 with count of -1.
+PASSED init count check for player 1 with count of -1.
+PASSED init count check for player 2 with count of -1.
+PASSED init count check for player 3 with count of -1.
+
+PASSED for player 0 for bin count and randomness check and nothing else changed for this player or other players.
+PASSED for player 1 for bin count and randomness check and nothing else changed for this player or other players.
+PASSED for player 2 for bin count and randomness check and nothing else changed for this player or other players.
+PASSED for player 3 for bin count and randomness check and nothing else changed for this player or other players.
+
+FAILED: returned a value of 0 which indicates the function completed but negative player index submitted.
+Result before 0 result after 0
+Result before 1 result after 1
+Result before 2 result after 2
+Result before 3 result after 3
+Result before 4 result after 4
+Result before 5 result after 5
+Result before 6 result after 6
+Result before 7 result after 7
+Result before 8 result after 8
+Result before 9 result after 9
+FAILED: returned a value of 0 which indicates the function completed but negative player index submitted.
+Result before 0 result after 0
+Result before 1 result after 1
+Result before 2 result after 2
+Result before 3 result after 3
+Result before 4 result after 4
+Result before 5 result after 5
+Result before 6 result after 6
+Result before 7 result after 7
+Result before 8 result after 8
+Result before 9 result after 9
+FAILED: returned a value of 0 which indicates the function completed but negative player index submitted.
+Result before 0 result after 0
+Result before 1 result after 1
+Result before 2 result after 2
+Result before 3 result after 3
+Result before 4 result after 4
+Result before 5 result after 5
+Result before 6 result after 6
+Result before 7 result after 7
+Result before 8 result after 8
+Result before 9 result after 9
+FAILED: returned a value of 0 which indicates the function completed but negative player index submitted.
+Result before 0 result after 0
+Result before 1 result after 1
+Result before 2 result after 2
+Result before 3 result after 3
+Result before 4 result after 4
+Result before 5 result after 5
+Result before 6 result after 6
+Result before 7 result after 7
+Result before 8 result after 8
+Result before 9 result after 9
+File 'dominion.c'
+Lines executed:19.44% of 607
+Branches executed:24.95% of 473
+Taken at least once:19.03% of 473
+Calls executed:7.37% of 95
+Creating 'dominion.c.gcov'
+
+
+UNIT TEST 2.
+Start of deck count check test.
+PASSED deckCountTest for player = 0 with fullDeckCount = 4 and should be 4.
+PASSED deckCountTest for player = 1 with fullDeckCount = 4 and should be 4.
+PASSED deckCountTest for player = 2 with fullDeckCount = 4 and should be 4.
+PASSED deckCountTest for player = 3 with fullDeckCount = 4 and should be 4.
+PASSED deck count check test.
+
+Start of hand count check test.
+PASSED handCountTest for player = 0 with fullDeckCount = 4 and should be 4.
+PASSED handCountTest for player = 1 with fullDeckCount = 4 and should be 4.
+PASSED handCountTest for player = 2 with fullDeckCount = 4 and should be 4.
+PASSED handCountTest for player = 3 with fullDeckCount = 4 and should be 4.
+PASSED hand count check test.
+
+Start of discard count check test.
+PASSED discardCountTestCountTest for player = 0 with fullDeckCount = 4 and should be 4.
+PASSED discardCountTestCountTest for player = 1 with fullDeckCount = 4 and should be 4.
+PASSED discardCountTestCountTest for player = 2 with fullDeckCount = 4 and should be 4.
+PASSED discardCountTestCountTest for player = 3 with fullDeckCount = 4 and should be 4.
+PASSED discard count check test.
+
+Start of ALL count check test.
+PASSED allCountTestCountTest for player = 0 with fullDeckCount = 12 and should be 12 and other changed 1000.
+PASSED allCountTestCountTest for player = 1 with fullDeckCount = 12 and should be 12 and other changed 1000.
+PASSED allCountTestCountTest for player = 2 with fullDeckCount = 12 and should be 12 and other changed 1000.
+PASSED allCountTestCountTest for player = 3 with fullDeckCount = 12 and should be 12 and other changed 1000.
+PASSED overall count check test.
+
+File 'dominion.c'
+Lines executed:21.09% of 607
+Branches executed:27.91% of 473
+Taken at least once:21.99% of 473
+Calls executed:7.37% of 95
+Creating 'dominion.c.gcov'
+
+
+UNIT TEST 3
+PASSED province test with correct return equal to 1.
+PASSED province test with correct return equal to 0.
+PASSED province test as the FUT DID NOT mutate the gameState.
+
+FAILED countTest with zeroCounter 3 and isGameOver 0
+Card 0 count 22
+Card 1 count 22
+Card 2 count 22
+Card 3 count 23
+Card 4 count 22
+Card 5 count 22
+Card 6 count 22
+Card 7 count 22
+Card 8 count 22
+Card 9 count 22
+Card 10 count 22
+Card 11 count 22
+Card 12 count 22
+Card 13 count 22
+Card 14 count 22
+Card 15 count 22
+Card 16 count 22
+Card 17 count 22
+Card 18 count 22
+Card 19 count 22
+Card 20 count 22
+Card 21 count 22
+Card 22 count 22
+Card 23 count 22
+Card 24 count 0
+Card 25 count 0
+Card 26 count 0
+PASSED count test as the FUT DID NOT mutate the gameState.
+File 'dominion.c'
+Lines executed:22.57% of 607
+Branches executed:29.60% of 473
+Taken at least once:23.47% of 473
+Calls executed:7.37% of 95
+Creating 'dominion.c.gcov'
+
+
+UNIT TEST 4
+PASSED: negative hand count for hand size of -3 and player 0 with sum of 22 and bonus 22 and function result 22.
+PASSED: negative hand count for hand size of -3 and player 1 with sum of 22 and bonus 22 and function result 22.
+PASSED: negative hand count for hand size of -3 and player 2 with sum of 22 and bonus 22 and function result 22.
+PASSED: negative hand count for hand size of -3 and player 3 with sum of 22 and bonus 22 and function result 22.
+
+Alert: negative coin count being returned. Verify your Dominion rule book to make sure this is allowed.
+PASSED: negative hand count for hand size of 6 and player 0 with sum of -39 and bonus -45 and function result -39.
+Alert: negative coin count being returned. Verify your Dominion rule book to make sure this is allowed.
+PASSED: negative hand count for hand size of 6 and player 1 with sum of -39 and bonus -45 and function result -39.
+Alert: negative coin count being returned. Verify your Dominion rule book to make sure this is allowed.
+PASSED: negative hand count for hand size of 6 and player 2 with sum of -39 and bonus -45 and function result -39.
+Alert: negative coin count being returned. Verify your Dominion rule book to make sure this is allowed.
+PASSED: negative hand count for hand size of 6 and player 3 with sum of -39 and bonus -45 and function result -39.
+
+PASSED: negative hand count for hand size of 3 and player 0 with sum of 7 and bonus 1 and function result 7.
+PASSED: mutation check in basicCountTest.
+PASSED: negative hand count for hand size of 3 and player 1 with sum of 7 and bonus 1 and function result 7.
+PASSED: mutation check in basicCountTest.
+PASSED: negative hand count for hand size of 3 and player 2 with sum of 7 and bonus 1 and function result 7.
+PASSED: mutation check in basicCountTest.
+PASSED: negative hand count for hand size of 3 and player 3 with sum of 7 and bonus 1 and function result 7.
+PASSED: mutation check in basicCountTest.
+File 'dominion.c'
+Lines executed:22.90% of 607
+Branches executed:29.60% of 473
+Taken at least once:23.89% of 473
+Calls executed:7.37% of 95
+Creating 'dominion.c.gcov'
+
+
+CARD TEST 1 = SMITHY
+PASSED player 0 for smithy removal.
+FAILED player 0 for hand count.
+FAILED player 0 for deck count.
+PASSED player 0 for state mutated.
+PASSED player 1 for smithy removal.
+FAILED player 1 for hand count.
+FAILED player 1 for deck count.
+PASSED player 1 for state mutated.
+PASSED player 2 for smithy removal.
+FAILED player 2 for hand count.
+FAILED player 2 for deck count.
+PASSED player 2 for state mutated.
+PASSED player 3 for smithy removal.
+FAILED player 3 for hand count.
+FAILED player 3 for deck count.
+PASSED player 3 for state mutated.
+File 'dominion.c'
+Lines executed:25.70% of 607
+Branches executed:31.29% of 473
+Taken at least once:24.95% of 473
+Calls executed:9.47% of 95
+Creating 'dominion.c.gcov'
+
+
+CARD TEST 2 = ADVENTURER
+FAILED: player 0 handcount incorrectly equal to 9.
+PASSED: player 0 discard count test.
+PASSED: player 0 mutate count test.
+FAILED: player 1 handcount incorrectly equal to 9.
+PASSED: player 1 discard count test.
+PASSED: player 1 mutate count test.
+FAILED: player 2 handcount incorrectly equal to 9.
+PASSED: player 2 discard count test.
+PASSED: player 2 mutate count test.
+FAILED: player 3 handcount incorrectly equal to 9.
+PASSED: player 3 discard count test.
+PASSED: player 3 mutate count test.
+FAILED: player 0 did not havea an adventurer and still performed function and card adds.
+FAILED: player 1 did not havea an adventurer and still performed function and card adds.
+FAILED: player 2 did not havea an adventurer and still performed function and card adds.
+FAILED: player 3 did not havea an adventurer and still performed function and card adds.
+PASSED: player 0 bad player and function did not execute which is correct.
+PASSED: player 1 bad player and function did not execute which is correct.
+PASSED: player 2 bad player and function did not execute which is correct.
+PASSED: player 3 bad player and function did not execute which is correct.
+File 'dominion.c'
+Lines executed:29.16% of 607
+Branches executed:34.25% of 473
+Taken at least once:27.06% of 473
+Calls executed:12.63% of 95
+Creating 'dominion.c.gcov'
+
+
+CARD TEST 3 = VILLAGE
+PASSED: player 0 action count tested correctly equal to 5.
+FAILED: player 0 the village card is still in hand.
+FAILED: player 0 the discardCount is off.
+FAILED: player 0 mutate test with value -11.
+PASSED: player 1 action count tested correctly equal to 5.
+FAILED: player 1 the village card is still in hand.
+FAILED: player 1 the discardCount is off.
+FAILED: player 1 mutate test with value -11.
+PASSED: player 2 action count tested correctly equal to 5.
+PASSED: player 2 the village card is gone from hand as it should be and have a new card.
+FAILED: player 2 the discardCount is off.
+PASSED: player 2 mutate count test.
+PASSED: player 3 action count tested correctly equal to 5.
+FAILED: player 3 the village card is still in hand.
+FAILED: player 3 the discardCount is off.
+FAILED: player 3 mutate test with value -11.
+File 'dominion.c'
+Lines executed:30.31% of 607
+Branches executed:34.67% of 473
+Taken at least once:27.70% of 473
+Calls executed:14.74% of 95
+Creating 'dominion.c.gcov'
+
+
+CARD TEST 4 = MINE
+PASSED: player 0 correctly bounced for not choosing copper, silver or gold to trash.
+PASSED: player 1 correctly bounced for not choosing copper, silver or gold to trash.
+PASSED: player 2 correctly bounced for not choosing copper, silver or gold to trash.
+PASSED: player 3 correctly bounced for not choosing copper, silver or gold to trash.
+PASSED: player 0 correctly bounced for choosing an invalid card for replacement card.
+PASSED: player 1 correctly bounced for choosing an invalid card for replacement card.
+PASSED: player 2 correctly bounced for choosing an invalid card for replacement card.
+PASSED: player 3 correctly bounced for choosing an invalid card for replacement card.
+FAILED: player 0 did not bounce when replacement card had more than 3 cost of trashed card.
+FAILED: player 1 did not bounce when replacement card had more than 3 cost of trashed card.
+FAILED: player 2 did not bounce when replacement card had more than 3 cost of trashed card.
+FAILED: player 3 did not bounce when replacement card had more than 3 cost of trashed card.
+FAILED: player 0 new card NOT inserted into hand.
+PASSED: player 0 got rid of the mine.
+FAILED: player 0 discard count is incorrect before 5 and after 5.
+PASSED: player 0 mutate count test.
+FAILED: player 1 new card NOT inserted into hand.
+PASSED: player 1 got rid of the mine.
+FAILED: player 1 discard count is incorrect before 5 and after 5.
+PASSED: player 1 mutate count test.
+FAILED: player 2 new card NOT inserted into hand.
+PASSED: player 2 got rid of the mine.
+FAILED: player 2 discard count is incorrect before 5 and after 5.
+PASSED: player 2 mutate count test.
+FAILED: player 3 new card NOT inserted into hand.
+PASSED: player 3 got rid of the mine.
+FAILED: player 3 discard count is incorrect before 5 and after 5.
+PASSED: player 3 mutate count test.
+File 'dominion.c'
+Lines executed:35.26% of 607
+Branches executed:44.82% of 473
+Taken at least once:30.87% of 473
+Calls executed:21.05% of 95
+Creating 'dominion.c.gcov'
+
