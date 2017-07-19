@@ -5,6 +5,9 @@
 
 #define STR_LEN 5
 
+// Create global char array on stack to preserve heap mem
+char s[(int)STR_LEN + 1];
+
 // rand() % (max_number + 1 - minimum_number) + minimum_number
 // only look at printable chars from 32 to 126 (space to ~)
 char inputChar()
@@ -13,38 +16,34 @@ char inputChar()
 	return retChar;
 }
 
-// only using small letters 
+// using a smattering of small leters and numbers 
 // https://codereview.stackexchange.com/questions/29198/random-string-generator-in-c
-char *inputString()
+void inputString()
 {
-	static char charSet[] = "resethkfder";
-	char * retStr = NULL;
+	static char charSet[] = "resethkfderml13";
 	int len = (int)STR_LEN;
 	int i = 0;
-	retStr = malloc(sizeof(char) * (len + 1));
 	
 	for(i = 0; i < len; i++)
 	{
 		int key = rand() % ((int)(sizeof(charSet) - 1));
-		retStr[i] = charSet[key];
+		s[i] = charSet[key];
 	}
 	
-	retStr[len] = '\0';
-	return retStr;
+	s[len] = '\0';
 }
 
 void testme()
 {
 	int tcCount = 0;
-	char *s;
 	char c;
 	int state = 0;
-		
+
 	while (1)
 	{
 		tcCount++;
 		c = inputChar();
-		s = inputString();
+		inputString();
 		printf("Iteration %d: c = %c, s = %s, state = %d\n", tcCount, c, s, state);
 
 		if (c == '[' && state == 0) 
