@@ -16,6 +16,7 @@ playdom: dominion.o playdom.c
 player: player.c interface.o
 	gcc -o player player.c -g  dominion.o rngs.o interface.o $(CFLAGS)
 
+## HW 3 Unit Tests
 unittest1: unittest1.c dominion.o rngs.o
 	gcc -o unittest1 -g  unittest1.c dominion.o rngs.o $(CFLAGS)
 
@@ -72,6 +73,13 @@ all: playdom player unittest1 unittest2 unittest3 unittest4 cardtest1 cardtest2 
 clean:
 	rm -f *.o *.gcov *.gcda *.gcno *.so *.out playdom player badTestDrawCard testDrawCard unittest1 unittest2 unittest3 unittest4 cardtest1 cardtest2 cardtest3 cardtest4 demoTest
 
+## HW 4 Random Tests 
+randomtestcard2.out: randomtestcard2.c dominion.o rngs.o
+	gcc -o randomtestcard2 -g  randomtestcard2.c dominion.o rngs.o $(CFLAGS)
+	./randomtestcard2 &>> randomtestcard2.out
+	gcov -b -c dominion.c >> randomtestcard2.out
+	cat dominion.c.gcov >> randomtestcard2.out
+	
 ## Old tests that do not work all too well 
 testDrawCard: testDrawCard.c dominion.o rngs.o
 	gcc  -o testDrawCard -g  testDrawCard.c dominion.o rngs.o $(CFLAGS)
