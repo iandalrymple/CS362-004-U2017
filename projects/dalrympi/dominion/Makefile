@@ -71,14 +71,28 @@ unittestresults.out: unittest1.c unittest2.c unittest3.c unittest4.c dominion.o 
 all: playdom player unittest1 unittest2 unittest3 unittest4 cardtest1 cardtest2 cardtest3 cardtest4 unittestresults.out
 
 clean:
-	rm -f *.o *.gcov *.gcda *.gcno *.so *.out playdom player badTestDrawCard testDrawCard unittest1 unittest2 unittest3 unittest4 cardtest1 cardtest2 cardtest3 cardtest4 demoTest
+	rm -f *.o *.gcov *.gcda *.gcno *.so *.out playdom player badTestDrawCard testDrawCard 
+	rm -f unittest1 unittest2 unittest3 unittest4 cardtest1 cardtest2 cardtest3 cardtest4 demoTest 
+	rm -f randomtestcard1 randomtestcard2 randomtestadventurer
+	
+## HW 4 Random Tests
+randomtestadventurer.out: randomtestadventurer.c dominion.o rngs.o
+	gcc -o randomtestadventurer -g  randomtestadventurer.c dominion.o rngs.o $(CFLAGS)
+	./randomtestadventurer &>> randomtestadventurer.out
+	gcov -b -c dominion.c >> randomtestadventurer.out
+	##cat dominion.c.gcov >> randomtestadventurer.out
 
-## HW 4 Random Tests 
+randomtestcard1.out: randomtestcard1.c dominion.o rngs.o
+	gcc -o randomtestcard1 -g  randomtestcard1.c dominion.o rngs.o $(CFLAGS)
+	./randomtestcard1 &>> randomtestcard1.out
+	gcov -b -c dominion.c >> randomtestcard1.out
+	##cat dominion.c.gcov >> randomtestcard1.out
+
 randomtestcard2.out: randomtestcard2.c dominion.o rngs.o
 	gcc -o randomtestcard2 -g  randomtestcard2.c dominion.o rngs.o $(CFLAGS)
 	./randomtestcard2 &>> randomtestcard2.out
 	gcov -b -c dominion.c >> randomtestcard2.out
-	cat dominion.c.gcov >> randomtestcard2.out
+	##cat dominion.c.gcov >> randomtestcard2.out
 	
 ## Old tests that do not work all too well 
 testDrawCard: testDrawCard.c dominion.o rngs.o
