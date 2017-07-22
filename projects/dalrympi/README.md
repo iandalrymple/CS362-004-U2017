@@ -1,8 +1,6 @@
-Assignment 3 submission!!!
+Assignment 4 submission!!!
 
-- Added unittestX.c 
-- Added cardtestX.c
-- To run suite and generate report do the following:
+- To run suite and generate reports do the following:
       - Run make clean
-      - Run make unittestresults.out 
-      - cat unittestresults.out 
+      - Run make hw4 
+      - cat randomtestadventurer.out, randomtestcard1.out and randomtestcard2.out 
