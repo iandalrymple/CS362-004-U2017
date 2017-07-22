@@ -23,6 +23,8 @@
 #define NET_CARDS_TO_DISCARD 1
 #define ACTION_INCREASE 2 
 
+#define NUM_TESTS	50
+
 // Oracle
 void oracleVillage(int player, int villageIdx, int iter, struct gameState *gBefore, struct gameState *gAfter)
 {	
@@ -112,13 +114,13 @@ int main()
 	
 	// Seed declare 
 	SelectStream(2);
-	PutSeed(3);
+	PutSeed(-1);
 	
 	// Print the start of test
 	printf("Beginning randomtestcard1.c for Village\n");
 	
 	// Loop and run tests 
-	for (n = 0; n < 1000; n++) 
+	for (n = 0; n < (int)NUM_TESTS; n++) 
 	{
 		// Copmpletely randomize the gamestate
 		for (i = 0; i < sizeof(struct gameState); i++) 

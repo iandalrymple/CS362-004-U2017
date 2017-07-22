@@ -20,6 +20,8 @@
 #define NET_CARDS_TO_HAND 2
 #define NET_CARDS_FROM_DECK 3
 
+#define NUM_TESTS	50
+
 // Oracle
 void oracleSmithy(int player, int smithyIdx, int iter, struct gameState *gBefore, struct gameState *gAfter)
 {	
@@ -101,13 +103,13 @@ int main()
 	
 	// Seed declare 
 	SelectStream(2);
-	PutSeed(3);
+	PutSeed(-1);
 	
 	// Print the start of test
 	printf("Beginning randomtestcard2.c for Smithy\n");
 	
 	// Loop and run tests 
-	for (n = 0; n < 5; n++) 
+	for (n = 0; n < (int)NUM_TESTS; n++) 
 	{
 		// Copmpletely randomize the gamestate
 		for (i = 0; i < sizeof(struct gameState); i++) 

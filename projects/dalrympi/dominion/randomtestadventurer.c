@@ -22,6 +22,9 @@
 #define NET_CARDS_TO_DISCARD 1
 #define TREASURE_INCREASE 2 
 
+#define NUM_TESTS	1000
+#define MAX_CARDS 	249
+
 // Oracle
 void oracleAdventurer(int player, int iter, struct gameState *gBefore, struct gameState *gAfter)
 {	
@@ -47,73 +50,58 @@ void oracleAdventurer(int player, int iter, struct gameState *gBefore, struct ga
 					gAfter -> hand[player][i] == silver || 
 					gAfter -> hand[player][i] == gold)
 			afterTreasure ++;
-	}
-		
+	}		
 	if(afterTreasure == beforeTreasure + (int)TREASURE_INCREASE)
 		printf("PASSED: Adventurer treasure count check in iteration = %d.\n", iter);
 	else 
 		printf("FAILED: Adventurer treasure count check with before = %d and after = %d on iteration = %d.\n", 
 				beforeTreasure, afterTreasure, iter);
-	return;
 	
-	// // Check for one card taken from his own deck 
-	// if((gBefore -> deckCount[player] - (int)NET_CARDS_FROM_DECK) == gAfter -> deckCount[player])
-		// printf("PASSED: Village deckCount check in iteration = %d.\n", iter);
-	// else 
-		// printf("FAILED: Village deckCount check with before = %d and after = %d on iteration = %d.\n", 
-				// gBefore -> deckCount[player], gAfter -> deckCount[player], iter);
+	// Check that the Adventurer is still in hand. We can only check that the hand 
+	// is the same with the addition of X number of treasures
+	int diffCardFlag = 0;
+	for(i = 0; i < gBefore -> handCount[player]; i++)
+	{
+		if(gBefore -> hand[player][i] != gAfter -> hand[player][i])
+			diffCardFlag ++;
+	}
+	if(diffCardFlag == 0)
+		printf("PASSED: Adventurer card still in hand iteration = %d.\n", iter);
+	else 
+		printf("FAILED: Adventurer card has potentially been removed with %d diffs on iteration = %d.\n", diffCardFlag, iter);
 	
-	// // Check for hand count to stay the same 
-	// if(gBefore -> handCount[player] == gAfter -> handCount[player])
-		// printf("PASSED: Village handCount check in iteration = %d.\n", iter);
-	// else 
-		// printf("FAILED: Village handCount check with before = %d and after = %d on iteration = %d.\n", 
-				// gBefore -> handCount[player], gAfter -> handCount[player], iter);
+	// Check that the cards taken from deck that are not treasure are sent to discard pile 
+	int deltaDeck = gBefore -> deckCount[player] - gAfter -> deckCount[player];
+	int deltaDiscard = gAfter -> discardCount[player] - gBefore -> discardCount[player];
+	int deltaHand = gAfter -> handCount[player] - gBefore -> handCount[player];
+	if(deltaDeck == (deltaDiscard + deltaHand))
+		printf("PASSED: Drawn cards that are not treasure are sent to discard in hand on iteration = %d.\n", iter);
+	else 
+		printf("FAILED: Drawn cards NOT reconciled with deltaDeck = %d, deltaDiscard = %d and deltaHand = %d on iteration = %d.\n", deltaDeck, deltaDiscard, deltaHand, iter);
 				
-	// // Check that the card that was in villageIdx is no longer in the hand 
-	// int cardBefore = gBefore -> hand[player][villageIdx];
-	// int beforeVillageCount = 0;
-	// for(i = 0; i < gBefore -> handCount[player]; i++)
-	// {
-		// if(gBefore -> hand[player][i] == cardBefore)
-			// beforeVillageCount ++;
-	// }
-	// int afterVillageCount = 0;
-	// for(i = 0; i < gAfter -> handCount[player]; i++)
-	// {
-		// if(gAfter -> hand[player][i] == cardBefore)
-			// afterVillageCount ++;
-	// }
-	// if(beforeVillageCount == afterVillageCount + 1)
-		// printf("PASSED: Village in hand count check in iteration = %d.\n", iter);
-	// else 
-		// printf("FAILED: Village in hand count check with before = %d and after = %d on iteration = %d.\n", 
-				// beforeVillageCount, afterVillageCount, iter);
-				
-	// // Copy over the changes from after to before in order to check no other changes were made 
-	// // But first make copy of before to preserve the state and use the copy for the comparisons
-	// struct gameState cpyBefore;
-	// memcpy (&cpyBefore, gBefore, sizeof(struct gameState));
-	// cpyBefore.numActions = gAfter -> numActions;
-	// cpyBefore.deckCount[player] = gAfter -> deckCount[player];
-	// cpyBefore.discardCount[player] = gAfter -> discardCount[player];
-	// cpyBefore.handCount[player] = gAfter -> handCount[player];
-	// cpyBefore.playedCardCount = gAfter -> playedCardCount;
-	// for(i = 0; i < MAX_DECK; i++)
-	// {
-		// cpyBefore.deck[player][i] = gAfter -> deck[player][i];
-		// cpyBefore.discard[player][i] = gAfter -> discard[player][i];
-		// cpyBefore.playedCards[i] = gAfter -> playedCards[i];
-	// }
-	// for(i = 0; i < MAX_HAND; i++)
-		// cpyBefore.hand[player][i] = gAfter -> hand[player][i];
+	// Copy over the changes from after to before in order to check no other changes were made 
+	// But first make copy of before to preserve the state and use the copy for the comparisons
+	struct gameState cpyBefore;
+	memcpy (&cpyBefore, gBefore, sizeof(struct gameState));
+	cpyBefore.deckCount[player] = gAfter -> deckCount[player];
+	cpyBefore.discardCount[player] = gAfter -> discardCount[player];
+	cpyBefore.handCount[player] = gAfter -> handCount[player];
+	cpyBefore.playedCardCount = gAfter -> playedCardCount;
+	for(i = 0; i < MAX_DECK; i++)
+	{
+		cpyBefore.deck[player][i] = gAfter -> deck[player][i];
+		cpyBefore.discard[player][i] = gAfter -> discard[player][i];
+		cpyBefore.playedCards[i] = gAfter -> playedCards[i];
+	}
+	for(i = 0; i < MAX_HAND; i++)
+		cpyBefore.hand[player][i] = gAfter -> hand[player][i];
 	
-	// // Compare the after to the before copy 
-	// int compare = memcmp(&cpyBefore, gAfter, sizeof(struct gameState));
-	// if(compare == 0)
-		// printf("PASSED: Village mutation check in iteration = %d.\n", iter);
-	// else
-		// printf("FAILED: Village mutation check with memcmp = %d in iteration = %d.\n", compare, iter);
+	// Compare the after to the before copy 
+	int compare = memcmp(&cpyBefore, gAfter, sizeof(struct gameState));
+	if(compare == 0)
+		printf("PASSED: Adventurer mutation check in iteration = %d.\n", iter);
+	else
+		printf("FAILED: Adventurer mutation check with memcmp = %d in iteration = %d.\n", compare, iter);
 }
 
 // Entry 
@@ -127,13 +115,13 @@ int main()
 	
 	// Seed declare 
 	SelectStream(2);
-	PutSeed(3);
+	PutSeed(-1);
 	
 	// Print the start of test
 	printf("Beginning randomtestadventurer.c for Adventurer\n");
 	
 	// Loop and run tests 
-	for (n = 0; n < 5; n++) 
+	for (n = 0; n < (int)NUM_TESTS; n++) 
 	{
 		// Copmpletely randomize the gamestate
 		for (i = 0; i < sizeof(struct gameState); i++) 
@@ -143,25 +131,43 @@ int main()
 		
 		// Set sane values for certain parameters 
 		p = floor(Random() * 2);
-		gameBefore.deckCount[p] = floor(Random() * MAX_DECK);
-		gameBefore.discardCount[p] = floor(Random() * MAX_DECK);
-		gameBefore.handCount[p] = floor(Random() * MAX_HAND);
-		gameBefore.playedCards[p] = floor(Random() * MAX_DECK);
-		gameBefore.playedCardCount = floor(Random() * MAX_DECK);
+		gameBefore.deckCount[p] = floor(Random() * MAX_CARDS);
+		gameBefore.discardCount[p] = floor(Random() * MAX_CARDS);
+		gameBefore.handCount[p] = floor(Random() * MAX_CARDS);
+		gameBefore.playedCards[p] = floor(Random() * MAX_CARDS);
+		gameBefore.playedCardCount = floor(Random() * MAX_CARDS);
 		
+		// Deck and discard of zero will seg fault so fix that 
+		if(gameBefore.deckCount[p] == 0 && gameBefore.discardCount[p] == 0)
+		{
+			if(floor(Random() * 2) == 1)
+				gameBefore.deckCount[p] = floor(Random() * MAX_CARDS) + 25;
+			else 
+				gameBefore.discardCount[p] = floor(Random() * MAX_CARDS) + 25;
+		}
+		
+		// Seed with some 0 deck sizes to get coverage of branch in FUT 
+		// Simple manual seeding that prevents the need to run a million tests
+		// if(n > NUM_TESTS - floor(.1 * (int)NUM_TESTS))
+			// gameBefore.deckCount[p] = 0;
+			
 		// Seed the deck with five additional treasures 
 		int idx = -99;
 		if(gameBefore.deckCount[p] > 0)
-		{
-			idx = (int)(floor(Random() * gameBefore.deckCount[p]));
+		{		
 			for(i = 0; i < 5; i++)
+			{
+				idx = (int)(floor(Random() * gameBefore.deckCount[p]));
 				gameBefore.deck[p][idx] = (int)(floor(Random() * 3)) + 4;
+			}
 		}
 		else
 		{
-			idx = (int)(floor(Random() * gameBefore.discardCount[p]));
 			for(i = 0; i < 5; i++)
+			{
+				idx = (int)(floor(Random() * gameBefore.discardCount[p]));
 				gameBefore.discard[p][idx] = (int)(floor(Random() * 3)) + 4;
+			}
 		}
 
 		// Copy over the state before calling smithy (memcpy 1 - dest 2 - source)
@@ -173,7 +179,7 @@ int main()
 			printf("FAILED CALL TO ADVENTURER WITH RESULT %d.\n", futResult);
 		
 		// Call the oracle and print the results 
-		// oracleAdventurer(p, n, &gameBefore, &gameAfter);
+		oracleAdventurer(p, n, &gameBefore, &gameAfter);
 	}
 	
 	// Print a NL 

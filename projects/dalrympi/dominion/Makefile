@@ -76,23 +76,25 @@ clean:
 	rm -f randomtestcard1 randomtestcard2 randomtestadventurer
 	
 ## HW 4 Random Tests
+hw4: randomtestadventurer.out randomtestcard1.out randomtestcard2.out
+
 randomtestadventurer.out: randomtestadventurer.c dominion.o rngs.o
 	gcc -o randomtestadventurer -g  randomtestadventurer.c dominion.o rngs.o $(CFLAGS)
 	./randomtestadventurer &>> randomtestadventurer.out
 	gcov -b -c dominion.c >> randomtestadventurer.out
-	##cat dominion.c.gcov >> randomtestadventurer.out
+	cat dominion.c.gcov >> randomtestadventurer.out
 
 randomtestcard1.out: randomtestcard1.c dominion.o rngs.o
 	gcc -o randomtestcard1 -g  randomtestcard1.c dominion.o rngs.o $(CFLAGS)
 	./randomtestcard1 &>> randomtestcard1.out
 	gcov -b -c dominion.c >> randomtestcard1.out
-	##cat dominion.c.gcov >> randomtestcard1.out
+	cat dominion.c.gcov >> randomtestcard1.out
 
 randomtestcard2.out: randomtestcard2.c dominion.o rngs.o
 	gcc -o randomtestcard2 -g  randomtestcard2.c dominion.o rngs.o $(CFLAGS)
 	./randomtestcard2 &>> randomtestcard2.out
 	gcov -b -c dominion.c >> randomtestcard2.out
-	##cat dominion.c.gcov >> randomtestcard2.out
+	cat dominion.c.gcov >> randomtestcard2.out
 	
 ## Old tests that do not work all too well 
 testDrawCard: testDrawCard.c dominion.o rngs.o
