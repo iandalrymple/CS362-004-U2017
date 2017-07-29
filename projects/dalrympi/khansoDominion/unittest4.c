@@ -1,81 +1,158 @@
-/**
- * unittest for `scoreFor`
- * score is calculated by counting the victory points for all the cards in players deck
- */
-#include <assert.h>
-#include <string.h>
-#include <stdio.h>
+// Desc: 			Unit test for updateCoins function in dominion.c
+// Author: 			Ian Dalrymple
+// Date Created: 	07/06/2017
+// Notes:			4, 5 and 6 are the coin cards 
+// Requirements:
+// 1 - must add up value of all coins in players hand and tack on the bonus passed in 
+// 2 - should fail with negative reply for negative hand count 
+// 3 - should not mutate the gamestate
+
+
 #include "dominion.h"
 #include "dominion_helpers.h"
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <assert.h>
+#include <math.h>
 #include "rngs.h"
-#include "test_helper.h"
 
-int
-main ()
+#define		NUM_CARDS		27
+
+// Requirement 2
+void negativeHandCountTest()
 {
-    struct gameState gs, *gsp;
-    int res, expected;
-    const int numCurses[] = {-1, -1, 10, 20, 30};
-    const int numVictoryCards[] = {-1, -1, 8, 12, 12};
-    
-    // test no cards in deck should give zero score
-    memset(&gs, 0, sizeof(gs)); 
-    gs.numPlayers = 2;
-    gs.discardCount[0] = 0;
-    gs.deckCount[0] = 0;
-    gs.handCount[0] = 0;
-    expected = 0;
+	int j, k;					// Simple indexers
+	struct gameState G1; 		// Before shuffle 
 
-    res = scoreFor(0, &gs); 
+	
+	// Assign each player 
+	for(j = 0; j < MAX_PLAYERS; j++)
+	{
+		// Assign the card values 
+		for(k = 0; k < MAX_DECK; k++)
+		{
+			G1.hand[j][k] = 4;
+		}
+		
+		// Set the hand count 
+		G1.handCount[j] = -3;
+		
+		int bonus = 22;
+		int sum = 22; // Really undefined cause we dont have any cards to speak of 
+				
+		// Check the function now 
+		int result = updateCoins(j, &G1, bonus);
+		if(result) result = 1;
+		if(G1.coins < 0) 
+			printf("Alert: negative coin count being returned. Verify your Dominion rule book to make sure this is allowed.\n");
+		if(sum == G1.coins)
+			printf("PASSED: negative hand count for hand size of %d and player %d with sum of %d and bonus %d and function result %d.\n", G1.handCount[j], j, sum, bonus, G1.coins);
+		else
+		{
+			printf("FAILED: negative hand count for hand size of %d and player %d with sum of %d and bonus %d and function result %d.\n", G1.handCount[j], j, sum, bonus, G1.coins);
+		}
+	}
+	printf("\n");
+}
 
-    EXPECT_EQUAL(
-            "player with 0 cards in deck should have score of 0",
-            expected,
-            res);
+// General test and good programming 
+void negativeBonusTest()
+{
+	int j, k;					// Simple indexers
+	struct gameState G1; 		// Before shuffle 
 
-    // cursed player deck has all curses, there are 10 curses in game of 2
-    memset(&gs, 0, sizeof(gs));    
-    gs.numPlayers = 2;
-    gs.deckCount[0] = numCurses[gs.numPlayers];
-    expected = -1 * numCurses[gs.numPlayers];
-    for (int i = 0; i < numCurses[gs.numPlayers]; i++) {
-        gs.deck[0][i] = curse;    
-    }
+	// Assign each player 
+	for(j = 0; j < MAX_PLAYERS; j++)
+	{
+		// Assign the card values 
+		for(k = 0; k < MAX_DECK; k++)
+		{
+			G1.hand[j][k] = 4;
+		}
+		
+		// Set the hand count 
+		G1.handCount[j] = 6;
+		
+		int bonus = -45;
+		int sum = 6 - 45;  
+				
+		// Check the function now 
+		int result = updateCoins(j, &G1, bonus);
+		if(result) result = 1;
+		if(G1.coins < 0) 
+			printf("Alert: negative coin count being returned. Verify your Dominion rule book to make sure this is allowed.\n");
+		if(sum == G1.coins)
+			printf("PASSED: negative hand count for hand size of %d and player %d with sum of %d and bonus %d and function result %d.\n", G1.handCount[j], j, sum, bonus, G1.coins);
+		else
+		{
+			printf("FAILED: negative hand count for hand size of %d and player %d with sum of %d and bonus %d and function result %d.\n", G1.handCount[j], j, sum, bonus, G1.coins);
+		}
+	}
+	printf("\n");
+}
 
-    res = scoreFor(0, &gs);
+// Requirement 1 and 3 
+void basicCountTest()
+{
+	int j, k;					// Simple indexers
+	struct gameState G1; 		// Before shuffle 
+	struct gameState G2; 		// After shuffle 
+	int kings[10] = {adventurer, embargo, village, minion, mine, cutpurse,
+			sea_hag, tribute, smithy, council_room};
+		
+	// Init the game using the presumed funtional initializeGame function
+	initializeGame((int)MAX_PLAYERS, kings, 23, &G1);
 
-    EXPECT_EQUAL(
-            "all curse deck should be a negative number",
-            expected,
-            res);
+	// Assign each player 
+	for(j = 0; j < MAX_PLAYERS; j++)
+	{
+		// Assign the card values 
+		for(k = 0; k < MAX_DECK; k++)
+		{
+			G1.hand[j][k] = 4;
+		}
+		
+		G1.hand[j][0] = 4;
+		G1.hand[j][1] = 5;
+		G1.hand[j][2] = 6;
+		
+		// Set the hand count 
+		G1.handCount[j] = 3;
+		
+		// Make a copy of the game state 
+		memcpy(&G2, &G1, sizeof(struct gameState));
+		
+		int bonus = 1;
+		int sum = 7;  
+				
+		// Check the function now 
+		int result = updateCoins(j, &G1, bonus);
+		if(result) result = 1;
+		if(G1.coins < 0) 
+			printf("Alert: negative coin count being returned. Verify your Dominion rule book to make sure this is allowed.\n");
+		if(sum == G1.coins)
+			printf("PASSED: negative hand count for hand size of %d and player %d with sum of %d and bonus %d and function result %d.\n", G1.handCount[j], j, sum, bonus, G1.coins);
+		else
+		{
+			printf("FAILED: negative hand count for hand size of %d and player %d with sum of %d and bonus %d and function result %d.\n", G1.handCount[j], j, sum, bonus, G1.coins);
+		}
+		
+		// Check to make sure nothing else is changed for this player and the other players
+		G1.coins = G2.coins;
+		int compareGs = gameStateCmp(&G1, &G2);
+		if(compareGs != 1000)
+			printf("FAILED: mutation check in basicCountTest with compare result %d.\n", compareGs);
+		else 
+			printf("PASSED: mutation check in basicCountTest.\n");
+	}
+}
 
-    // get score of assortment of cards in players hand and discard pile
-    memset(&gs, 0, sizeof(gs));
-    gs.numPlayers = 2;
-    gs.deckCount[0] = 0;  // not testing deck this time
-    gs.handCount[0] = 5;  // player has 5 hand cards
-    gs.hand[0][0] = province; 
-    gs.hand[0][1] = province;
-    gs.hand[0][2] = duchy;
-    gs.hand[0][3] = curse;
-    gs.hand[0][4] = curse;
-    gs.discardCount[0] = 4;  // and 4 in the discard
-    gs.discard[0][0] = province;
-    gs.discard[0][1] = estate;
-    gs.discard[0][2] = duchy;
-    gs.discard[0][3] = curse;
-
-    // get expected score, 3 provinces, 2 duchy, 1 gardens, 2 curse, 1 estate
-    expected = 3 * 6 + 2 * 3 + - 3 + 1;
-
-    res = scoreFor(0, &gs);
-    
-    EXPECT_EQUAL(
-            "score is correct with specified cards, 3provinces, 2 duchy, 1 gardens, \n"\
-            "2 curse, and 1 estate",
-            expected,
-            res);
-
-    SUMMARY;
-    return 0;
+int main () 
+{
+	printf("\nUNIT TEST 4\n");
+	negativeHandCountTest();
+	negativeBonusTest();
+	basicCountTest();
+	return 0;
 }
