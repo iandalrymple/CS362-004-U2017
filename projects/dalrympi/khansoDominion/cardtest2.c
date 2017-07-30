@@ -59,7 +59,7 @@ void treasureCount()
 		memcpy (&G2, &G1, sizeof(struct gameState));
 		
 		// Call fadventurer
-		if(fAdventurer(&G1, i))
+		if(adventurerEffect(i, (int)ADV_IDX, &G1))
 			printf("FAILED: player %d returned value greater than 0 which means something went wrong.\n", i);
 		
 		// Check the hand count 
@@ -117,7 +117,7 @@ void noAdvTest()
 		G1.discardCount[i] = (int)TEST_DISCARD;
 		
 		// Call fadventurer
-		if(fAdventurer(&G1, i))
+		if(adventurerEffect(i, (int)ADV_IDX, &G1))
 			printf("FAILED: player %d returned value greater than 0 which means something went wrong.\n", i);
 		
 		// Check the hand count 
@@ -151,7 +151,7 @@ void currentPlayerTest()
 		G1.discardCount[i] = (int)TEST_DISCARD;
 		
 		// Call fadventurer
-		if(fAdventurer(&G1, 6))
+		if(adventurerEffect(i, 6, &G1))
 			printf("FAILED: player %d returned value greater than 0 which means something went wrong.\n", i);
 		
 		// Check the hand count 

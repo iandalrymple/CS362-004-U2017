@@ -130,7 +130,7 @@ int main()
 				
 		// Call Smithy
 		smithyIdx = floor(Random() * gameAfter.handCount[p]);
-		int futResult = fSmithy(&gameAfter, p, smithyIdx);
+		int futResult = smithyEffect(p, smithyIdx, &gameAfter);
 		if(futResult != 0)
 			printf("FAILED CALL TO VILLAGE WITH RESULT %d.\n", futResult);
 		

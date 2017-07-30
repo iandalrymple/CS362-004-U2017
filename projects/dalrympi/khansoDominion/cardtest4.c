@@ -1,6 +1,6 @@
-// Desc: 			Unit test for fMine function in dominion.c
+// Desc: 			Unit test for mine via cardEffect function in dominion.c
 // Author: 			Ian Dalrymple
-// Date Created: 	07/08/2017
+// Date Created: 	07/29/2017
 // Requirements:
 // 1 - only trash copper silver or gold 
 // 2 - new card must be a valid card from enum
@@ -47,13 +47,15 @@ void checkTrashCardRule()
 		G1.handCount[i] = (int)TEST_HAND;
 		G1.deckCount[i] = (int)TEST_DECK;
 		G1.discardCount[i] = (int)TEST_DISCARD;
+		G1.whoseTurn = i;
 		
 		// Set up location of the mine 
 		G1.hand[i][(int)MINE_IDX] = mine;
 			
 		// Call FUT - gameState, player, choice one = trash index in your hand, choice 2 = type of card seeking and 
 		// hp is the hand position of the mine card which will be discarded
-		int result = fMine(&G1, i, (int)TRASH_IDX, gold, (int)MINE_IDX);
+		int bonus = 0;
+		int result = cardEffect(mine, (int)TRASH_IDX, gold, 0, &G1, (int)MINE_IDX, &bonus);
 		if(result > 0)
 			printf("FAILED: player %d returned value greater than 0 which should be impossible.\n", i);
 		else if(result == -1)
@@ -84,13 +86,15 @@ void checkNewCardRule()
 		G1.handCount[i] = (int)TEST_HAND;
 		G1.deckCount[i] = (int)TEST_DECK;
 		G1.discardCount[i] = (int)TEST_DISCARD;
+		G1.whoseTurn = i;
 		
 		// Set up location of the mine 
 		G1.hand[i][(int)MINE_IDX] = mine;
 			
 		// Call FUT - gameState, player, choice one = trash index in your hand, choice 2 = type of card seeking and 
 		// hp is the hand position of the mine card which will be discarded
-		int result = fMine(&G1, i, (int)TRASH_IDX, 29, (int)MINE_IDX);
+		int bonus = 0;
+		int result = cardEffect(mine, (int)TRASH_IDX, 29, 0, &G1, (int)MINE_IDX, &bonus);
 		if(result > 0)
 			printf("FAILED: player %d returned value greater than 0 which should be impossible.\n", i);
 		else if(result == -1)
@@ -123,13 +127,15 @@ void checkCostRule()
 		G1.deckCount[i] = (int)TEST_DECK;
 		G1.discardCount[i] = (int)TEST_DISCARD;
 		G1.playedCardCount = (int)PLAYED_COUNT; 
+		G1.whoseTurn = i;
 		
 		// Set up location of the mine 
 		G1.hand[i][(int)MINE_IDX] = mine;
 			
 		// Call FUT - gameState, player, choice one = trash index in your hand, choice 2 = type of card seeking and 
 		// hp is the hand position of the mine card which will be discarded
-		int result = fMine(&G1, i, (int)TRASH_IDX, gold, (int)MINE_IDX);
+		int bonus = 0;
+		int result = cardEffect(mine, (int)TRASH_IDX, gold, 0, &G1, (int)MINE_IDX, &bonus);
 		if(result > 0)
 			printf("FAILED: player %d returned value greater than 0 which should be impossible.\n", i);
 		else if(result == -1)
@@ -169,6 +175,7 @@ void checkAddRule()
 		G1.deckCount[i] = (int)TEST_DECK;
 		G1.discardCount[i] = (int)TEST_DISCARD;
 		G1.playedCardCount = (int)PLAYED_COUNT; 
+		G1.whoseTurn = i;
 		
 		// Set up location of the mine 
 		G1.hand[i][(int)MINE_IDX] = mine;
@@ -178,7 +185,8 @@ void checkAddRule()
 		
 		// Call FUT - gameState, player, choice one = trash index in your hand, choice 2 = type of card seeking and 
 		// hp is the hand position of the mine card which will be discarded
-		int result = fMine(&G1, i, (int)TRASH_IDX, gold, (int)MINE_IDX);
+		int bonus = 0;
+		int result = cardEffect(mine, (int)TRASH_IDX, gold, 0, &G1, (int)MINE_IDX, &bonus);
 		if(result == 0)
 		{
 			int hasGold = 0;

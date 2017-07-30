@@ -173,8 +173,8 @@ int main()
 		// Copy over the state before calling smithy (memcpy 1 - dest 2 - source)
 		memcpy (&gameAfter, &gameBefore, sizeof(struct gameState));
 				
-		// Call Adventurer
-		int futResult = fAdventurer(&gameAfter, p);
+		// Call Adventurer	
+		int futResult = adventurerEffect(p, 33, &gameAfter);
 		if(futResult != 0)
 			printf("FAILED CALL TO ADVENTURER WITH RESULT %d.\n", futResult);
 		

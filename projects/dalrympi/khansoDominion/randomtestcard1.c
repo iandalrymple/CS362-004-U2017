@@ -1,4 +1,4 @@
-// Desc: 			Random test for fVillage function in dominion.c
+// Desc: 			Random test for village via cardEffect function in dominion.c
 // Author: 			Ian Dalrymple
 // Date Created: 	07/21/2017
 // HW4 -> CS362
@@ -135,13 +135,15 @@ int main()
 		gameBefore.handCount[p] = floor(Random() * MAX_HAND);
 		gameBefore.playedCards[p] = floor(Random() * MAX_DECK);
 		gameBefore.playedCardCount = floor(Random() * MAX_DECK);
+		gameBefore.whoseTurn = p;
 		
 		// Copy over the state before calling smithy (memcpy 1 - dest 2 - source)
 		memcpy (&gameAfter, &gameBefore, sizeof(struct gameState));
 				
 		// Call Village
 		villageIdx = floor(Random() * gameAfter.handCount[p]);
-		int futResult = fVillage(&gameAfter, p, villageIdx);
+		int bonus = 0;
+		int futResult = cardEffect(village, 0, 0, 0, &gameAfter, villageIdx, &bonus);
 		if(futResult != 0)
 			printf("FAILED CALL TO VILLAGE WITH RESULT %d.\n", futResult);
 		

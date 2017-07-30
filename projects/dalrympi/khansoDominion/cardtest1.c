@@ -1,6 +1,6 @@
-// Desc: 			Unit test for fSmithy function in dominion.c
+// Desc: 			Unit test for smithyEffect function in dominion.c
 // Author: 			Ian Dalrymple
-// Date Created: 	07/07/2017
+// Date Created: 	07/29/2017
 // Requirements:
 // 1. Current player should receive exact 3 cards and discard the smithy 
 // 2. 3 cards should come from his own pile.
@@ -61,8 +61,8 @@ void smithyTest()
 		// Copy over the state before calling smithy 
 		memcpy (&G1, &G2, sizeof(struct gameState));
 		
-		// Call fSmithy
-		if(fSmithy(&G2, i, (int)SMITHY_IDX))
+		// Call smithyEffect
+		if(smithyEffect(i, (int)SMITHY_IDX, &G2))
 			printf("Should not be here\n");
 		
 		// Now compare the hands before and after 

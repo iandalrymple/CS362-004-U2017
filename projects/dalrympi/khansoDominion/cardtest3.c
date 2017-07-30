@@ -1,6 +1,6 @@
-// Desc: 			Unit test for fVillage function in dominion.c
+// Desc: 			Unit test for village via cardEffect function in dominion.c
 // Author: 			Ian Dalrymple
-// Date Created: 	07/08/2017
+// Date Created: 	07/29/2017
 // Requirements:
 // 1 - gain two actions 
 // 2 - gain a card from deck 
@@ -58,6 +58,7 @@ void actionAndDiscardTest()
 		G1.deckCount[i] = (int)TEST_DECK;
 		G1.discardCount[i] = (int)TEST_DISCARD;
 		G1.playedCardCount = (int)PLAYED_COUNT; 
+		G1.whoseTurn = i;
 		
 		// Set up the number of actions 
 		G1.numActions = (int)NUM_ACTIONS;
@@ -65,8 +66,9 @@ void actionAndDiscardTest()
 		// Copy over the state before calling FUT
 		memcpy (&G2, &G1, sizeof(struct gameState));
 		
-		// Call fVillage
-		if(fVillage(&G1, i, (int)VILLAGE_IDX))
+		// Call village via cardEffect
+		int bonus = 0;
+		if(cardEffect(village, 0, 0, 0, &G1, (int)VILLAGE_IDX, &bonus))
 			printf("FAILED: returned value greater than 0 which means something went wrong.\n");
 		
 		// Check the action count
