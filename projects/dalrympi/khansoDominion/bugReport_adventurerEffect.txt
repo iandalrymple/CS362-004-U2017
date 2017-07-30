@@ -1,0 +1,99 @@
+Title: 
+adventurerEffect draws one too many treasures 
+
+Class:
+Moderate Bug 
+
+Date:   		07/30/2017        
+Reported By:   	Ian Dalrymple
+Email:      	dalrympi@oregonstate.edu
+
+
+Product: Dominion               
+Version: 45.6
+
+Platform / Version:
+CentOS Linux release 7.2.1511 (Core)
+NAME="CentOS Linux"
+VERSION="7 (Core)"
+ID="centos"
+ID_LIKE="rhel fedora"
+VERSION_ID="7"
+PRETTY_NAME="CentOS Linux 7 (Core)"
+ANSI_COLOR="0;31"
+CPE_NAME="cpe:/o:centos:centos:7"
+HOME_URL="https://www.centos.org/"
+BUG_REPORT_URL="https://bugs.centos.org/"
+
+CENTOS_MANTISBT_PROJECT="CentOS-7"
+CENTOS_MANTISBT_PROJECT_VERSION="7"
+REDHAT_SUPPORT_PRODUCT="centos"
+REDHAT_SUPPORT_PRODUCT_VERSION="7"
+
+CentOS Linux release 7.2.1511 (Core)
+CentOS Linux release 7.2.1511 (Core)
+cat: /etc/subversion: Is a directory
+       
+
+Is it reproducible: Yes always 
+
+Description
+===========
+The adventurerEffect function is intended to draw 
+cards from the deck until two treasures are drawn. 
+The cards that were drawn and are not treasures 
+should then be placed in the discard pile. In this case 
+three treasures are drawn.  This bug happens every run. 
+
+
+Steps to Produce/Reproduce
+--------------------------
+1) Run the initializeGame function 
+2) Ensure the deck has 20 cards and 5 treasures 
+3) Run adventurerEffect with the gameState
+4) Count the treasure increase in hand and/or total hand increase
+
+Expected Results
+----------------
+Hand increase by 2
+Discard increase by x - 2
+Deck increase by x
+
+Actual Results
+--------------
+Hand increase by 3
+Discard increase by x - 3
+Deck increase by x 
+
+Workarounds
+-----------
+Change the <= to < and the code works:
+
+	while(drawntreasure <= 2)
+	{
+		if (state->deckCount[currentPlayer] <1) //if the deck is empty we need to shuffle discard and add to deck
+		{
+			shuffle(currentPlayer, state);
+		}
+		drawCard(currentPlayer, state);
+		cardDrawn = state->hand[currentPlayer][state->handCount[currentPlayer]-1];//top card of hand is most recently drawn card.
+		if (cardDrawn == copper || cardDrawn == silver || cardDrawn == gold)
+			drawntreasure++;
+		else
+		{
+			temphand[z]=cardDrawn;
+			state->handCount[currentPlayer]--; //this should just remove the top card (the most recently drawn one).
+			// z++;
+		}
+	}
+
+Attachments
+-----------
+Attached test case file cardtest2.c and randomtestadventurer.c can be used in conjuction with attached makefile.
+In order to run the tests use "make cardtest2_Hw5" or "make randomtestadventurer_Hw5" and the results will be printed to 
+stdout or .out file.
+
+Other Information
+-----------------
+None
+

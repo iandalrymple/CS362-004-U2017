@@ -48,8 +48,8 @@ enum CARD
    embargo, /* choice1 = supply# */
    outpost,
    salvager, /* choice1 = hand# to trash */
-   sea_hag,
-   treasure_map
+   sea_hag, // 25
+   treasure_map // 26
   };
 
 struct gameState {

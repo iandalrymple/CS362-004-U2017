@@ -1,0 +1,86 @@
+Title: 
+smithyEffect draws one too many cards 
+
+Class:
+Serious Bug 
+
+Date:   		07/30/2017        
+Reported By:   	Ian Dalrymple
+Email:      	dalrympi@oregonstate.edu
+
+
+Product: Dominion               
+Version: 45.6
+
+Platform / Version:
+CentOS Linux release 7.2.1511 (Core)
+NAME="CentOS Linux"
+VERSION="7 (Core)"
+ID="centos"
+ID_LIKE="rhel fedora"
+VERSION_ID="7"
+PRETTY_NAME="CentOS Linux 7 (Core)"
+ANSI_COLOR="0;31"
+CPE_NAME="cpe:/o:centos:centos:7"
+HOME_URL="https://www.centos.org/"
+BUG_REPORT_URL="https://bugs.centos.org/"
+
+CENTOS_MANTISBT_PROJECT="CentOS-7"
+CENTOS_MANTISBT_PROJECT_VERSION="7"
+REDHAT_SUPPORT_PRODUCT="centos"
+REDHAT_SUPPORT_PRODUCT_VERSION="7"
+
+CentOS Linux release 7.2.1511 (Core)
+CentOS Linux release 7.2.1511 (Core)
+cat: /etc/subversion: Is a directory
+       
+
+Is it reproducible: Yes always 
+
+Description
+===========
+The smithyEffect function is intended to draw three cards and then 
+discard the Smithy using the position passed in to the function.
+In this case 4 cards are drawn so the player's handcount increases 
+by one too many and the deckcount decreases by one too many.
+
+
+Steps to Produce/Reproduce
+--------------------------
+1) Run the initializeGame function 
+2) Plant a Smithy in the users hand
+3) Ensure the deck has 20 cards
+4) Run smithyEffect with the gameState
+5) Count the decks 
+
+Expected Results
+----------------
+Deck decrease by 3 
+Hand increase by 2
+Discard increase by 1
+
+Actual Results
+--------------
+Deck decrease by 4
+Hand increase by 3
+Discard increase by 1
+
+Workarounds
+-----------
+Change the <= to < and the code works:
+
+  for (i = 0; i <= 3; i++)
+  {
+    drawCard(currentPlayer, state);
+  }
+
+Attachments
+-----------
+Attached test case file cardtest1.c and randomcardtest2.c can be used in conjuction with attached makefile.
+In order to run the tests use "make cardtest1_Hw5" or "make randomcardtest2_Hw5" and the results will be printed to 
+stdout or .out file.
+
+Other Information
+-----------------
+None
+

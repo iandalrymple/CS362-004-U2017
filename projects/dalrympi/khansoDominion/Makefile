@@ -119,6 +119,11 @@ runtests: testDrawCard
 	cat dominion.c.gcov >> unittestresult.out
 	
 ## HW 5 builds - do not include the .out files which are not required per spec doc
+Hw_5: clean Hw_5_unit Hw_5_card Hw_5_random
+Hw_5_unit: unittest1_Hw5 unittest2_Hw5 unittest3_Hw5 unittest4_Hw5  
+Hw_5_card: cardtest1_Hw5 cardtest2_Hw5 cardtest3_Hw5 cardtest4_Hw5
+Hw_5_random: randomtestadventurer_Hw5 randomtestcard1_Hw5 randomtestcard2_Hw5
+
 unittest1_Hw5: unittest1.c dominion.o rngs.o
 	gcc -o unittest1 -g  unittest1.c dominion.o rngs.o $(CFLAGS)
 	./unittest1

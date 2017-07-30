@@ -1,0 +1,97 @@
+Title: 
+isGameOver does not cover all cards in deck
+
+Class:
+Serious Bug 
+
+Date:   		07/30/2017        
+Reported By:   	Ian Dalrymple
+Email:      	dalrympi@oregonstate.edu
+
+
+Product: Dominion               
+Version: 45.6
+
+Platform / Version:
+CentOS Linux release 7.2.1511 (Core)
+NAME="CentOS Linux"
+VERSION="7 (Core)"
+ID="centos"
+ID_LIKE="rhel fedora"
+VERSION_ID="7"
+PRETTY_NAME="CentOS Linux 7 (Core)"
+ANSI_COLOR="0;31"
+CPE_NAME="cpe:/o:centos:centos:7"
+HOME_URL="https://www.centos.org/"
+BUG_REPORT_URL="https://bugs.centos.org/"
+
+CENTOS_MANTISBT_PROJECT="CentOS-7"
+CENTOS_MANTISBT_PROJECT_VERSION="7"
+REDHAT_SUPPORT_PRODUCT="centos"
+REDHAT_SUPPORT_PRODUCT_VERSION="7"
+
+CentOS Linux release 7.2.1511 (Core)
+CentOS Linux release 7.2.1511 (Core)
+cat: /etc/subversion: Is a directory
+       
+
+Is it reproducible: Yes always 
+
+Description
+===========
+The isGameOver function is intended to determine if the game should be ceased. 
+It does this by checking two conditions:
+1) If no Province cards i the supply the game is over. 
+OR 
+2) If the supply count of any other three cards is empty the game is over.
+If sea_hag and/or treasure_map are set to zero they are not counted and the result 
+is incorrect provided there are the appropriate count of empty cards elsewhere in 
+the supply.
+
+
+Steps to Produce/Reproduce
+--------------------------
+1) Run the initializeGame function 
+2) Set cards salvager, sea_hag and treasure_map to 0 in the supply. 
+3) Run isGameOver with the gameState 
+
+
+Expected Results
+----------------
+1
+
+
+Actual Results
+--------------
+0
+
+
+Workarounds
+-----------
+Change the 25 to 27 and the code works:
+
+	for (i = 0; i < 25; i++)
+	{
+		if (state->supplyCount[i] == 0)
+		{
+			j++;
+		}
+	}
+		if ( j >= 3)
+		{
+			return 1;
+		}
+		return 0;
+	}
+
+
+Attachments
+-----------
+Attached test case file unittest3.c can be used in conjuction with attached makefile.
+In order to run the test use "make unittest3_Hw5" and the results will be printed to 
+stdout.
+
+Other Information
+-----------------
+None
+
