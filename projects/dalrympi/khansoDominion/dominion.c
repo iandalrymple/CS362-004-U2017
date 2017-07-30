@@ -398,14 +398,14 @@ int isGameOver(struct gameState *state) {
     }
 
   //if three supply pile are at 0, the game ends
-  j = 0;
-  for (i = 0; i < 25; i++)
-    {
-      if (state->supplyCount[i] == 0)
+	j = 0;
+	for (i = 0; i < 25; i++)
 	{
-	  j++;
+		if (state->supplyCount[i] == 0)
+		{
+			j++;
+		}
 	}
-    }
   if ( j >= 3)
     {
       return 1;
@@ -667,23 +667,29 @@ int adventurerEffect(int currentPlayer, int handPos, struct gameState *state)
   int cardDrawn;
   int temphand[MAX_HAND];
 
-  while(drawntreasure<=2){
-      if (state->deckCount[currentPlayer] <1){//if the deck is empty we need to shuffle discard and add to deck
-          shuffle(currentPlayer, state);
-      }
-      drawCard(currentPlayer, state);
-      cardDrawn = state->hand[currentPlayer][state->handCount[currentPlayer]-1];//top card of hand is most recently drawn card.
-      if (cardDrawn == copper || cardDrawn == silver || cardDrawn == gold)
-          drawntreasure++;
-      else{
-          temphand[z]=cardDrawn;
-          state->handCount[currentPlayer]--; //this should just remove the top card (the most recently drawn one).
-          // z++;
-      }
-  }
+	while(drawntreasure<=2)
+	{
+		//if the deck is empty we need to shuffle discard and add to deck
+		if (state->deckCount[currentPlayer] <1)
+		{
+			shuffle(currentPlayer, state);
+		}
+		drawCard(currentPlayer, state);
+		//top card of hand is most recently drawn card.
+		cardDrawn = state->hand[currentPlayer][state->handCount[currentPlayer]-1];
+		if (cardDrawn == copper || cardDrawn == silver || cardDrawn == gold)
+			drawntreasure++;
+		else
+		{
+			temphand[z]=cardDrawn;
+			//this should just remove the top card (the most recently drawn one).
+			state->handCount[currentPlayer]--; 
+			// z++;
+		}
+	}
   while(z-1>=0){
-      state->discard[currentPlayer][state->discardCount[currentPlayer]++]=temphand[z-1]; // discard all cards in play that have been drawn
-      z=z-1;
+	  state->discard[currentPlayer][state->discardCount[currentPlayer]++]=temphand[z-1]; // discard all cards in play that have been drawn
+	  z=z-1;
   }
   return 0;
 }

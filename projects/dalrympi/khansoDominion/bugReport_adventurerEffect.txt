@@ -95,5 +95,7 @@ stdout or .out file.
 
 Other Information
 -----------------
-None
+The commented out z++; is also suspect and likely causes other issues with one of the other 
+counts like discardCount and should be investigated. A new bug report may need to be 
+generated. 
 
