@@ -1,0 +1,17 @@
+﻿  rngs.c
+e:\google drive\personal\osu_classes\362\homework\5\dominion\dominion\rngs.c(120): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\stdio.h(1272): note: see declaration of 'scanf'
+  randomtestcard2.c
+e:\google drive\personal\osu_classes\362\homework\5\dominion\dominion\randomtestcard2.c(117): warning C4244: '=': conversion from 'double' to 'char', possible loss of data
+e:\google drive\personal\osu_classes\362\homework\5\dominion\dominion\randomtestcard2.c(121): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+e:\google drive\personal\osu_classes\362\homework\5\dominion\dominion\randomtestcard2.c(122): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+e:\google drive\personal\osu_classes\362\homework\5\dominion\dominion\randomtestcard2.c(123): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+e:\google drive\personal\osu_classes\362\homework\5\dominion\dominion\randomtestcard2.c(124): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+e:\google drive\personal\osu_classes\362\homework\5\dominion\dominion\randomtestcard2.c(125): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+e:\google drive\personal\osu_classes\362\homework\5\dominion\dominion\randomtestcard2.c(126): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+e:\google drive\personal\osu_classes\362\homework\5\dominion\dominion\randomtestcard2.c(132): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+  dominion.c
+e:\google drive\personal\osu_classes\362\homework\5\dominion\dominion\dominion.c(216): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+  Generating Code...
+  Dominion.vcxproj -> E:\Google Drive\PERSONAL\OSU_CLASSES\362\HOMEWORK\5\Dominion\Debug\Dominion.exe
+  Dominion.vcxproj -> E:\Google Drive\PERSONAL\OSU_CLASSES\362\HOMEWORK\5\Dominion\Debug\Dominion.pdb (Partial PDB)
